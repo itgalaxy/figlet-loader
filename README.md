@@ -2,6 +2,10 @@
 
 [![NPM version](https://img.shields.io/npm/v/figlet-loader.svg)](https://www.npmjs.org/package/figlet-loader) [![Travis Build Status](https://img.shields.io/travis/itgalaxy/figlet-loader/master.svg?label=build)](https://travis-ci.org/itgalaxy/figlet-loader) [![dependencies Status](https://david-dm.org/itgalaxy/figlet-loader/status.svg)](https://david-dm.org/itgalaxy/figlet-loader) [![devDependencies Status](https://david-dm.org/itgalaxy/figlet-loader/dev-status.svg)](https://david-dm.org/itgalaxy/figlet-loader?type=dev)
 
+Get your figlet build bundled with webpack.
+
+![Example](https://github.com/itgalaxy/figlet-loader/raw/master/example.png?raw=true)
+
 ## Installation
 
 ```shell
@@ -77,6 +81,8 @@ module.exports = {
 }
 ```
 
+Note: `webpack` normalize `query` to `loader`, if you want to specify `url` in `outputTextBefore` or `outputTextAfter`, then use `'Visit Site - https:\\/\\/itgalaxy.company'`.
+
 Using `config` through `query string` is have large priority than through `resolve.alias`.
 
 Option `figletConfig` must contain `text` and `options` as above in **Initialization** section.
@@ -92,7 +98,9 @@ import 'figlet';
 You can used [bundle](https://github.com/webpack/bundle-loader) plugin for async loading:
 
 ```javscript
-import 'bundle!figlet';
+import figletLoader from 'bundle?lazy!figlet';
+
+figletLoader(() => {});
 ```
 
 ## Related
