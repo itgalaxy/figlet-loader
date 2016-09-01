@@ -1,0 +1,13 @@
+{
+    "options": {
+        "outputTextBefore": "TEXT BEFORE",
+        "outputTextBeforeEscape": true,
+        "outputTextAfter": "TEXT AFTER",
+        "outputTextAfterEscape": true,
+        "font": "ANSI Shadow",
+        "horizontalLayout": "default",
+        "kerning": "default",
+        "verticalLayout": "default"
+    },
+    "text": "ANOTHER-TEXT"
+}
