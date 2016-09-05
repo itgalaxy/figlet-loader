@@ -113,4 +113,4 @@ Don't hesitate to create a pull request. Every contribution is appreciated.
 
 ## [Changelog](CHANGELOG.md)
 
-## [License](LICENSE.md)
+## [License](LICENSE)
