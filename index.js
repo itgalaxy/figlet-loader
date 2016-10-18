@@ -1,4 +1,5 @@
 /* eslint-disable strict, import/no-commonjs */
+
 'use strict';
 
 const figlet = require('figlet');
@@ -68,9 +69,7 @@ module.exports = function (resolveConfig) {
 
     const callback = this.async();
 
-    let externalConfig = resolveConfig && isJSON(resolveConfig)
-        ? JSON.parse(resolveConfig)
-        : this.exec(resolveConfig, this.resource);
+    let externalConfig = null;
 
     if (this.query.length > 0) {
         let parsedQuery = {};
@@ -82,6 +81,10 @@ module.exports = function (resolveConfig) {
         if (parsedQuery.config) {
             externalConfig = JSON.parse(parsedQuery.config);
         }
+    } else {
+        externalConfig = resolveConfig && isJSON(resolveConfig)
+            ? JSON.parse(resolveConfig)
+            : this.exec(resolveConfig, this.resource);
     }
 
     const config = Object.assign(
