@@ -1,6 +1,9 @@
 # figlet-loader
 
-[![NPM version](https://img.shields.io/npm/v/figlet-loader.svg)](https://www.npmjs.org/package/figlet-loader) [![Travis Build Status](https://img.shields.io/travis/itgalaxy/figlet-loader/master.svg?label=build)](https://travis-ci.org/itgalaxy/figlet-loader) [![dependencies Status](https://david-dm.org/itgalaxy/figlet-loader/status.svg)](https://david-dm.org/itgalaxy/figlet-loader) [![devDependencies Status](https://david-dm.org/itgalaxy/figlet-loader/dev-status.svg)](https://david-dm.org/itgalaxy/figlet-loader?type=dev)
+[![NPM version](https://img.shields.io/npm/v/figlet-loader.svg)](https://www.npmjs.org/package/figlet-loader) 
+[![Travis Build Status](https://img.shields.io/travis/itgalaxy/figlet-loader/master.svg?label=build)](https://travis-ci.org/itgalaxy/figlet-loader) 
+[![dependencies Status](https://david-dm.org/itgalaxy/figlet-loader/status.svg)](https://david-dm.org/itgalaxy/figlet-loader) 
+[![devDependencies Status](https://david-dm.org/itgalaxy/figlet-loader/dev-status.svg)](https://david-dm.org/itgalaxy/figlet-loader?type=dev)
 
 Get your figlet build bundled with webpack.
 
@@ -14,7 +17,7 @@ $ npm install figlet-loader --save-dev
 
 ## Initialization
 
-You have to create a `.figletrc` configuration file and put your figlet stuff in it. Like so
+You have to create a `.figletrc` (or `.figletrc.js`) configuration file and put your figlet stuff in it. Like so
 
 ```json
 // .figletrc or .figletrc.json
@@ -33,6 +36,24 @@ You have to create a `.figletrc` configuration file and put your figlet stuff in
 }
 ```
 
+Or
+
+```js
+'use strict';
+
+module.exports = {
+    options: {
+        outputTextBefore: "TEXT BEFORE",
+        outputTextAfter: "TEXT AFTER",
+        font: "ANSI Shadow",
+        horizontalLayout: "default",
+        kerning: "default",
+        verticalLayout: "default"
+    },
+    text: "ANOTHER-TEXT"
+};
+```
+
 Full list of supported **"options"** and their **"description"** can be found in [figlet](https://github.com/patorjk/figlet.js).
 
 ### Webpack config
@@ -47,13 +68,13 @@ module.exports = {
     loaders: [
       {
         loader: "figlet",
-        test: /\.figletrc$/, // or "/\.figletrc\.json$/"
+        test: /\.figletrc$/, // or "/\.figletrc\.json$/", or "/\.figletrc\.js$/"
       }
     ]
   },
   resolve: {
     alias: {
-      figlet$: path.resolve(__dirname, "path/to/.figletrc") // or "path/to/.figletrc.json"
+      figlet$: path.resolve(__dirname, "path/to/.figletrc") // or "path/to/.figletrc.json", or "path/to/.figletrc.js"
     }
   }
 }
@@ -81,7 +102,8 @@ module.exports = {
 }
 ```
 
-Note: `webpack` normalize `query` to `loader`, if you want to specify `url` in `outputTextBefore` or `outputTextAfter`, then use `'Visit Site - https:\\/\\/itgalaxy.company'`.
+Note: `webpack` normalize `query` to `loader`, if you want to specify `url` in `outputTextBefore` or `outputTextAfter`, 
+then use `'Visit Site - https:\\/\\/itgalaxy.company'`.
 
 Using `config` through `query string` is have large priority than through `resolve.alias`.
 

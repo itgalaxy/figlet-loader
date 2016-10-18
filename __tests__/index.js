@@ -57,6 +57,53 @@ test.cb('should execute successfully with config and use `require("./.figletrc.j
     });
 });
 
+test.cb('should execute successfully with config and use `require("./.figletrc.js")`', (t) => {
+    const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
+    const webpackConfig = {
+        context: './fixtures',
+        entry: './index2.js',
+        module: {
+            loaders: [
+                {
+                    loader:
+                        `${path.resolve(__dirname, '../index.js')}`,
+                    test: /\.figletrc\.js$/
+                }
+            ]
+        },
+        output: {
+            filename: 'bundle.js',
+            path: `${tempDir}`
+        }
+    };
+
+    webpack(webpackConfig, (error, stats) => {
+        if (error) {
+            throw error;
+        }
+
+        t.true(stats.compilation.errors.length === 0, 'no compilation error');
+
+        fs.readFile(`${tempDir}/bundle.js`, 'utf8', (fsError, data) => {
+            if (fsError) {
+                throw fsError;
+            }
+
+            figlet.text(figletConfig.text, figletConfig.options, (figletError, output) => {
+                if (figletError) {
+                    throw figletError;
+                }
+
+                output.split('\n').forEach((line) => {
+                    t.regex(data, new RegExp(encodeURI(line)));
+                });
+
+                t.end();
+            });
+        });
+    });
+});
+
 test.cb('should execute successfully without config and use `require("figlet")`', (t) => {
     const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
     const webpackConfig = {

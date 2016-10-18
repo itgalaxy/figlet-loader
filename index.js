@@ -67,7 +67,10 @@ module.exports = function (resolveConfig) {
     }
 
     const callback = this.async();
-    let externalConfig = resolveConfig && isJSON(resolveConfig) ? JSON.parse(resolveConfig) : {};
+
+    let externalConfig = resolveConfig && isJSON(resolveConfig)
+        ? JSON.parse(resolveConfig)
+        : this.exec(resolveConfig, this.resource);
 
     if (this.query.length > 0) {
         let parsedQuery = {};
