@@ -80,8 +80,6 @@ module.exports = {
 }
 ```
 
-Using configuration through `resolve.alias` supported only `JSON` **(PR welcome)**.
-
 Alternative configurations supported dynamic configuration:
 
 ```javascript

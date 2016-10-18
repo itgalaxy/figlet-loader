@@ -1,3 +1,8 @@
+# Head
+
+- Chore: rename `eslint-plugin-xo` to `eslint-plugin-unicorn`.
+- Chore: update a minimal version of `eslint-plugin-unicorn` from `0.5.0` to `1.0.0`.
+
 # 1.1.0 - 2016-10-18
 
 - Added: support `js` configuration.
