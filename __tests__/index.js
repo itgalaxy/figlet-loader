@@ -9,18 +9,20 @@ import temp from 'temp';
 import test from 'ava';
 import webpack from 'webpack';
 
+const loader = path.resolve(__dirname, '../index.js');
+const fixturesDir = path.resolve(__dirname, 'fixtures');
+
 temp.track();
 
 test.cb('should execute successfully with JSON config and use `require("./.figletrc.json")`', (t) => {
     const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
     const webpackConfig = {
-        context: './fixtures',
+        context: fixturesDir,
         entry: './index.js',
         module: {
             loaders: [
                 {
-                    loader:
-                        `${path.resolve(__dirname, '../index.js')}`,
+                    loader,
                     test: /\.figletrc\.json$/
                 }
             ]
@@ -61,13 +63,12 @@ test.cb('should execute successfully with JSON config and use `require("./.figle
 test.cb('should execute successfully with JS config and use `require("./.figletrc.js")`', (t) => {
     const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
     const webpackConfig = {
-        context: './fixtures',
+        context: fixturesDir,
         entry: './index2.js',
         module: {
             loaders: [
                 {
-                    loader:
-                        `${path.resolve(__dirname, '../index.js')}`,
+                    loader,
                     test: /\.figletrc\.js$/
                 }
             ]
@@ -108,13 +109,12 @@ test.cb('should execute successfully with JS config and use `require("./.figletr
 test.cb('should execute successfully with JSON config and use `require("figlet")`', (t) => {
     const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
     const webpackConfig = {
-        context: './fixtures',
+        context: fixturesDir,
         entry: './index1.js',
         module: {
             loaders: [
                 {
-                    loader:
-                        `${path.resolve(__dirname, '../index.js')}`,
+                    loader,
                     test: /\.figletrc\.json$/
                 }
             ]
@@ -160,13 +160,12 @@ test.cb('should execute successfully with JSON config and use `require("figlet")
 test.cb('should execute successfully with JS config and use `require("figlet")`', (t) => {
     const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
     const webpackConfig = {
-        context: './fixtures',
+        context: fixturesDir,
         entry: './index1.js',
         module: {
             loaders: [
                 {
-                    loader:
-                        `${path.resolve(__dirname, '../index.js')}`,
+                    loader,
                     test: /\.figletrc\.js$/
                 }
             ]
@@ -212,13 +211,12 @@ test.cb('should execute successfully with JS config and use `require("figlet")`'
 test.cb('should execute successfully using "query string" and use `require("figlet")`', (t) => {
     const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
     const webpackConfig = {
-        context: './fixtures',
+        context: fixturesDir,
         entry: './index1.js',
         module: {
             loaders: [
                 {
-                    loader:
-                        `${path.resolve(__dirname, '../index.js')}?config=${encodeURI(JSON.stringify(figletConfig))}`,
+                    loader: `${loader}?config=${encodeURI(JSON.stringify(figletConfig))}`,
                     test: /figlet\.js$/
                 }
             ]
@@ -265,13 +263,12 @@ test.cb('should supported "config" using "query string"', (t) => {
     const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
 
     const webpackConfig = {
-        context: './fixtures',
+        context: fixturesDir,
         entry: './index.js',
         module: {
             loaders: [
                 {
-                    loader:
-                        `${path.resolve(__dirname, '../index.js')}?config=${encodeURI(JSON.stringify(figletConfig))}`,
+                    loader: `${loader}?config=${encodeURI(JSON.stringify(figletConfig))}`,
                     test: /\.figletrc\.json$/
                 }
             ]
@@ -316,13 +313,12 @@ test.cb('should throw error on invalid config', (t) => {
     const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
 
     const webpackConfig = {
-        context: './fixtures',
+        context: fixturesDir,
         entry: './index.js',
         module: {
             loaders: [
                 {
-                    loader: `${path.resolve(__dirname, '../index.js')}`
-                        + `?config=${encodeURI(JSON.stringify(figletConfigInvalid))}`,
+                    loader: `${loader}?config=${encodeURI(JSON.stringify(figletConfigInvalid))}`,
                     test: /\.figletrc\.json$/
                 }
             ]
@@ -347,13 +343,12 @@ test.cb('should supported "config" using "query string" with escape', (t) => {
     const tempDir = temp.mkdirSync(); // eslint-disable-line no-sync
 
     const webpackConfig = {
-        context: './fixtures',
+        context: fixturesDir,
         entry: './index.js',
         module: {
             loaders: [
                 {
-                    loader:
-                        `${path.resolve(__dirname, '../index.js')}?config=${encodeURI(JSON.stringify(figletConfig1))}`,
+                    loader: `${loader}?config=${encodeURI(JSON.stringify(figletConfig1))}`,
                     test: /\.figletrc\.json$/
                 }
             ]
