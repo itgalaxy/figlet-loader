@@ -129,7 +129,7 @@ figletLoader(() => {});
 
 ## Contribution
 
-Don't hesitate to create a pull request. Every contribution is appreciated.
+Feel free to push your code if you agree with publishing under the MIT license.
 
 ## [Changelog](CHANGELOG.md)
 
