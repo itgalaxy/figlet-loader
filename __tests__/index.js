@@ -23,8 +23,7 @@ test(
         unsafeCleanup: true
     })
         .then((result) => {
-            const tmpPath = result[0];
-            const cleanupCallback = result[1];
+            const [tmpPath, cleanupCallback] = result;
             const webpackConfig = {
                 context: fixturesDir,
                 entry: './index.js',
@@ -78,8 +77,7 @@ test(
         unsafeCleanup: true
     })
         .then((result) => {
-            const tmpPath = result[0];
-            const cleanupCallback = result[1];
+            const [tmpPath, cleanupCallback] = result;
             const webpackConfig = {
                 context: fixturesDir,
                 entry: './index2.js',
@@ -131,8 +129,7 @@ test(
         unsafeCleanup: true
     })
         .then((result) => {
-            const tmpPath = result[0];
-            const cleanupCallback = result[1];
+            const [tmpPath, cleanupCallback] = result;
             const webpackConfig = {
                 context: fixturesDir,
                 entry: './index1.js',
@@ -189,8 +186,7 @@ test(
         unsafeCleanup: true
     })
         .then((result) => {
-            const tmpPath = result[0];
-            const cleanupCallback = result[1];
+            const [tmpPath, cleanupCallback] = result;
             const webpackConfig = {
                 context: fixturesDir,
                 entry: './index1.js',
@@ -247,8 +243,7 @@ test(
         unsafeCleanup: true
     })
         .then((result) => {
-            const tmpPath = result[0];
-            const cleanupCallback = result[1];
+            const [tmpPath, cleanupCallback] = result;
             const webpackConfig = {
                 context: fixturesDir,
                 entry: './index1.js',
@@ -304,8 +299,7 @@ test(
         unsafeCleanup: true
     })
         .then((result) => {
-            const tmpPath = result[0];
-            const cleanupCallback = result[1];
+            const [tmpPath, cleanupCallback] = result;
 
             const webpackConfig = {
                 context: fixturesDir,
@@ -361,9 +355,7 @@ test(
         unsafeCleanup: true
     })
         .then((result) => {
-            const tmpPath = result[0];
-            const cleanupCallback = result[1];
-
+            const [tmpPath, cleanupCallback] = result;
             const webpackConfig = {
                 context: fixturesDir,
                 entry: './index.js',
@@ -398,8 +390,7 @@ test(
         unsafeCleanup: true
     })
         .then((result) => {
-            const tmpPath = result[0];
-            const cleanupCallback = result[1];
+            const [tmpPath, cleanupCallback] = result;
             const webpackConfig = {
                 context: fixturesDir,
                 entry: './index.js',
