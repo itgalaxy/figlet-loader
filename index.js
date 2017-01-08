@@ -22,8 +22,10 @@ function wrapOutput(output, config) {
         + "'use strict';";
 
     if (config.options.outputTextBefore) {
-        const outputTextBefore = config.options.outputTextBefore;
-        const isNeedEscapeBefore = config.options.outputTextBeforeEscape;
+        const {
+            outputTextBefore,
+            outputTextBeforeEscape: isNeedEscapeBefore
+        } = config.options;
 
         figletOutput += `console.log("${
             isNeedEscapeBefore
@@ -37,8 +39,10 @@ function wrapOutput(output, config) {
     });
 
     if (config.options.outputTextAfter) {
-        const outputTextAfter = config.options.outputTextAfter;
-        const isNeedEscapeAfter = config.options.outputTextAfterEscape;
+        const {
+            outputTextAfter,
+            outputTextAfterEscape: isNeedEscapeAfter
+        } = config.options;
 
         figletOutput += `console.log("${
             isNeedEscapeAfter
