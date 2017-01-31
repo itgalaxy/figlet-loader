@@ -48,8 +48,11 @@
         "remark-cli": "^2.0.0",
         "remark-lint": "^5.0.0",
         "remark-preset-lint-itgalaxy": "^4.0.0",
-        "webpack": "^1.14.0",
+        "webpack": "^2.2.1",
         "tmp": "^0.0.31"
+    },
+    "peerDependencies": {
+        "webpack": "^1.13.2 || ^2.2.1"
     },
     "scripts": {
         "lint:eslint": "eslint . --ignore-path .gitignore --ignore-pattern '**/fixtures/**'",

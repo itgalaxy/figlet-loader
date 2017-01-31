@@ -6,8 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 # Head
 
-- Chore: renamed `eslint-plugin-xo` package to `eslint-plugin-unicorn` package.
-- Chore: minimum required `eslint-plugin-unicorn` version is now `^1.0.0`.
+- Fixed: updated webpack peer dependency to support `2.2.1`.
 
 # 1.1.0 - 2016-10-18
 
