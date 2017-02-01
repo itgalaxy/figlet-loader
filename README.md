@@ -115,7 +115,7 @@ const figletConfig = {
 
 module.exports = {
     module: {
-        loaders: [
+        rules: [
             {
                 loader: `figlet-loader`,
                 options: figletConfig,
