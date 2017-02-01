@@ -67,7 +67,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        loader: "figlet",
+        loader: "figlet?useConfigFile",
         test: /\.figletrc$/, // or "/\.figletrc\.json$/", or "/\.figletrc\.js$/"
       }
     ]
@@ -83,11 +83,17 @@ module.exports = {
 Alternative configurations supported dynamic configuration:
 
 ```javascript
+const querystring = require('querystring');
+const figletConfig = {
+    options: {},
+    text: "ANOTHER-TEXT"
+};
+
 module.exports = {
   module: {
     loaders: [
       {
-       loader: `figlet?config=${encodeURI(JSON.stringify(figletConfig))}`,
+       loader: `figlet?config=${JSON.stringify(figletConfig)}`,
        test: /figlet$/
       }
     ]
@@ -100,16 +106,43 @@ module.exports = {
 }
 ```
 
-Note: `webpack` normalize `query` to `loader`, if you want to specify `url` in `outputTextBefore` or `outputTextAfter`, 
-then use `'Visit Site - https:\\/\\/itgalaxy.company'`.
+In `webpack 2` your can use this config:
 
-Using `config` through `query string` is have large priority than through `resolve.alias`.
+```javascript
+const figletConfig = {
+    options: {},
+    text: "ANOTHER-TEXT"
+};
 
-Option `figletConfig` must contain `text` and `options` as above in **Initialization** section.
+module.exports = {
+  module: {
+    loaders: [
+      {
+        loader: `figlet-loader`,
+        options: figletConfig,
+        test: /figlet$/
+      }
+    ]
+  },
+  resolve: {
+    alias: {
+      figlet$: path.resolve(__dirname, "path/to/empty-file") // You can add comment "Please do not delete this file" in this file
+    }
+  }
+}
+```
+
+Config should always contains `text` and `options` as above in **Initialization** section.
 
 ### Usage
 
 Now you are able to import your custom figlet build as a module throughout your application like so:
+
+```javascript
+const figlet = require('figlet');
+```
+
+Or
 
 ```javscript
 import 'figlet';

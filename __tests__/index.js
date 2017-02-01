@@ -1,8 +1,7 @@
 import figlet from 'figlet';
-import figletConfig from './fixtures/.figletrc.json';
-import figletConfig1 from './fixtures/.figletrc1.json';
-import figletConfig2 from './fixtures/.figletrc';
 import figletConfigInvalid from './fixtures/.figletrc-invalid.json';
+import figletConfigJSONRc from './fixtures/.figletrc.json';
+import figletConfigRc from './fixtures/.figletrc';
 import fs from 'fs';
 import path from 'path';
 import pify from 'pify';
@@ -14,6 +13,68 @@ const loader = path.resolve(__dirname, '../index.js');
 const fixturesDir = path.resolve(__dirname, 'fixtures');
 
 tmp.setGracefulCleanup();
+
+test(
+    'should execute successfully without any options',
+    (t) => pify(tmp.dir, {
+        multiArgs: true
+    })({
+        unsafeCleanup: true
+    })
+        .then((result) => {
+            const DEFAULT_CONFIG = {
+                options: {
+                    font: 'ANSI Shadow',
+                    horizontalLayout: 'default',
+                    kerning: 'default',
+                    outputTextAfter: null,
+                    outputTextAfterEscape: false,
+                    outputTextBefore: null,
+                    outputTextBeforeEscape: false,
+                    verticalLayout: 'default'
+                },
+                text: 'FIGLET-LOADER'
+            };
+            const [tmpPath, cleanupCallback] = result;
+            const webpackConfig = {
+                context: fixturesDir,
+                entry: './index1.js',
+                module: {
+                    rules: [
+                        {
+                            loader: `${loader}`,
+                            test: /figlet\.js$/
+                        }
+                    ]
+                },
+                output: {
+                    filename: 'bundle.js',
+                    path: `${tmpPath}`
+                }
+            };
+
+            return pify(webpack)(webpackConfig)
+                .then((stats) => {
+                    t.true(stats.compilation.errors.length === 0, 'no compilation error');
+
+                    return pify(fs.readFile)(`${tmpPath}/bundle.js`, 'utf8')
+                        .then(
+                            (data) => pify(figlet.text)(
+                                DEFAULT_CONFIG.text,
+                                DEFAULT_CONFIG.options
+                            ).then((output) => {
+                                output.split('\n').forEach(
+                                    (line) => {
+                                        t.true(data.indexOf(encodeURI(line)) !== -1);
+                                    }
+                                );
+
+                                return cleanupCallback();
+                            })
+                        );
+                });
+        })
+);
 
 test(
     'should execute successfully with JSON config and use `require("./.figletrc.json")`',
@@ -28,9 +89,9 @@ test(
                 context: fixturesDir,
                 entry: './index.js',
                 module: {
-                    loaders: [
+                    rules: [
                         {
-                            loader,
+                            loader: `${loader}?useConfigFile`,
                             test: /\.figletrc\.json$/
                         }
                     ]
@@ -47,23 +108,18 @@ test(
 
                     return pify(fs.readFile)(`${tmpPath}/bundle.js`, 'utf8')
                         .then(
-                            (data) => figlet.text(
-                                figletConfig.text,
-                                figletConfig.options,
-                                (figletError, output) => {
-                                    if (figletError) {
-                                        throw figletError;
+                            (data) => pify(figlet.text)(
+                                figletConfigJSONRc.text,
+                                figletConfigJSONRc.options
+                            ).then((output) => {
+                                output.split('\n').forEach(
+                                    (line) => {
+                                        t.true(data.indexOf(encodeURI(line)) !== -1);
                                     }
+                                );
 
-                                    output.split('\n').forEach(
-                                        (line) => {
-                                            t.regex(data, new RegExp(encodeURI(line)));
-                                        }
-                                    );
-
-                                    return cleanupCallback();
-                                }
-                            )
+                                return cleanupCallback();
+                            })
                         );
                 });
         })
@@ -82,9 +138,9 @@ test(
                 context: fixturesDir,
                 entry: './index2.js',
                 module: {
-                    loaders: [
+                    rules: [
                         {
-                            loader,
+                            loader: `${loader}?useConfigFile`,
                             test: /\.figletrc\.js$/
                         }
                     ]
@@ -101,21 +157,18 @@ test(
 
                     return pify(fs.readFile)(`${tmpPath}/bundle.js`, 'utf8')
                         .then(
-                            (data) => figlet.text(
-                                figletConfig.text,
-                                figletConfig.options,
-                                (figletError, output) => {
-                                    if (figletError) {
-                                        throw figletError;
+                            (data) => pify(figlet.text)(
+                                figletConfigRc.text,
+                                figletConfigRc.options
+                            ).then((output) => {
+                                output.split('\n').forEach(
+                                    (line) => {
+                                        t.true(data.indexOf(encodeURI(line)) !== -1);
                                     }
+                                );
 
-                                    output.split('\n').forEach((line) => {
-                                        t.regex(data, new RegExp(encodeURI(line)));
-                                    });
-
-                                    return cleanupCallback();
-                                }
-                            )
+                                return cleanupCallback();
+                            })
                         );
                 });
         })
@@ -134,9 +187,9 @@ test(
                 context: fixturesDir,
                 entry: './index1.js',
                 module: {
-                    loaders: [
+                    rules: [
                         {
-                            loader,
+                            loader: `${loader}?useConfigFile`,
                             test: /\.figletrc\.json$/
                         }
                     ]
@@ -158,21 +211,18 @@ test(
 
                     return pify(fs.readFile)(`${tmpPath}/bundle.js`, 'utf8')
                         .then(
-                            (data) => figlet.text(
-                                figletConfig.text,
-                                figletConfig.options,
-                                (figletError, output) => {
-                                    if (figletError) {
-                                        throw figletError;
+                            (data) => pify(figlet.text)(
+                                figletConfigJSONRc.text,
+                                figletConfigJSONRc.options
+                            ).then((output) => {
+                                output.split('\n').forEach(
+                                    (line) => {
+                                        t.true(data.indexOf(encodeURI(line)) !== -1);
                                     }
+                                );
 
-                                    output.split('\n').forEach((line) => {
-                                        t.regex(data, new RegExp(encodeURI(line)));
-                                    });
-
-                                    return cleanupCallback();
-                                }
-                            )
+                                return cleanupCallback();
+                            })
                         );
                 });
         })
@@ -193,7 +243,7 @@ test(
                 module: {
                     loaders: [
                         {
-                            loader,
+                            loader: `${loader}?useConfigFile`,
                             test: /\.figletrc\.js$/
                         }
                     ]
@@ -215,28 +265,25 @@ test(
 
                     return pify(fs.readFile)(`${tmpPath}/bundle.js`, 'utf8')
                         .then(
-                            (data) => figlet.text(
-                                figletConfig2.text,
-                                figletConfig2.options,
-                                (figletError, output) => {
-                                    if (figletError) {
-                                        throw figletError;
+                            (data) => pify(figlet.text)(
+                                figletConfigRc.text,
+                                figletConfigRc.options
+                            ).then((output) => {
+                                output.split('\n').forEach(
+                                    (line) => {
+                                        t.true(data.indexOf(encodeURI(line)) !== -1);
                                     }
+                                );
 
-                                    output.split('\n').forEach((line) => {
-                                        t.regex(data, new RegExp(encodeURI(line)));
-                                    });
-
-                                    return cleanupCallback();
-                                }
-                            )
+                                return cleanupCallback();
+                            })
                         );
                 });
         })
 );
 
 test(
-    'should execute successfully using "query string" and use `require("figlet")`',
+    'should execute successfully using `options` and use `require("figlet")`',
     (t) => pify(tmp.dir, {
         multiArgs: true
     })({
@@ -248,9 +295,10 @@ test(
                 context: fixturesDir,
                 entry: './index1.js',
                 module: {
-                    loaders: [
+                    rules: [
                         {
-                            loader: `${loader}?config=${encodeURI(JSON.stringify(figletConfig))}`,
+                            loader,
+                            options: figletConfigJSONRc,
                             test: /figlet\.js$/
                         }
                     ]
@@ -272,77 +320,19 @@ test(
 
                     return pify(fs.readFile)(`${tmpPath}/bundle.js`, 'utf8')
                         .then(
-                            (data) => figlet.text(
-                                figletConfig.text,
-                                figletConfig.options,
-                                (figletError, output) => {
-                                    if (figletError) {
-                                        throw figletError;
+                            (data) => pify(figlet.text)(
+                                figletConfigJSONRc.text,
+                                figletConfigJSONRc.options
+                            ).then((output) => {
+                                output.split('\n').forEach(
+                                    (line) => {
+                                        t.true(data.indexOf(encodeURI(line)) !== -1);
                                     }
+                                );
 
-                                    output.split('\n').forEach((line) => {
-                                        t.regex(data, new RegExp(encodeURI(line)));
-                                    });
-
-                                    return cleanupCallback();
-                                })
+                                return cleanupCallback();
+                            })
                         );
-                });
-        })
-);
-
-test(
-    'should supported "config" using "query string"',
-    (t) => pify(tmp.dir, {
-        multiArgs: true
-    })({
-        unsafeCleanup: true
-    })
-        .then((result) => {
-            const [tmpPath, cleanupCallback] = result;
-
-            const webpackConfig = {
-                context: fixturesDir,
-                entry: './index.js',
-                module: {
-                    loaders: [
-                        {
-                            loader: `${loader}?config=${encodeURI(JSON.stringify(figletConfig))}`,
-                            test: /\.figletrc\.json$/
-                        }
-                    ]
-                },
-                output: {
-                    filename: 'bundle.js',
-                    path: `${tmpPath}`
-                }
-            };
-
-            return pify(webpack)(webpackConfig)
-                .then((stats) => {
-                    t.true(stats.compilation.errors.length === 0, 'no compilation error');
-
-                    return pify(fs.readFile)(`${tmpPath}/bundle.js`, 'utf8')
-                        .then((data) => {
-                            t.regex(data, new RegExp(figletConfig.options.outputTextBefore));
-                            t.regex(data, new RegExp(figletConfig.options.outputTextAfter));
-
-                            return figlet.text(
-                                figletConfig.text,
-                                figletConfig.options,
-                                (figletError, output) => {
-                                    if (figletError) {
-                                        throw figletError;
-                                    }
-
-                                    output.split('\n').forEach((line) => {
-                                        t.regex(data, new RegExp(encodeURI(line)));
-                                    });
-
-                                    return cleanupCallback();
-                                }
-                            );
-                        });
                 });
         })
 );
@@ -358,12 +348,13 @@ test(
             const [tmpPath, cleanupCallback] = result;
             const webpackConfig = {
                 context: fixturesDir,
-                entry: './index.js',
+                entry: './index1.js',
                 module: {
-                    loaders: [
+                    rules: [
                         {
-                            loader: `${loader}?config=${encodeURI(JSON.stringify(figletConfigInvalid))}`,
-                            test: /\.figletrc\.json$/
+                            loader,
+                            options: figletConfigInvalid,
+                            test: /figlet\.js$/
                         }
                     ]
                 },
@@ -383,7 +374,7 @@ test(
 );
 
 test(
-    'should supported "config" using "query string" with escape',
+    'should supported `config` from "query string"',
     (t) => pify(tmp.dir, {
         multiArgs: true
     })({
@@ -397,7 +388,7 @@ test(
                 module: {
                     loaders: [
                         {
-                            loader: `${loader}?config=${encodeURI(JSON.stringify(figletConfig1))}`,
+                            loader: `${loader}?${JSON.stringify(figletConfigRc)}`,
                             test: /\.figletrc\.json$/
                         }
                     ]
@@ -413,25 +404,20 @@ test(
                     t.true(stats.compilation.errors.length === 0, 'no compilation error');
 
                     return pify(fs.readFile)(`${tmpPath}/bundle.js`, 'utf8')
-                        .then((data) => {
-                            t.regex(data, new RegExp(encodeURI(figletConfig1.options.outputTextBefore)));
-                            t.regex(data, new RegExp(encodeURI(figletConfig1.options.outputTextAfter)));
-
-                            return figlet.text(
-                                figletConfig1.text,
-                                figletConfig1.options,
-                                (figletError, output) => {
-                                    if (figletError) {
-                                        throw figletError;
+                        .then(
+                            (data) => pify(figlet.text)(
+                                figletConfigRc.text,
+                                figletConfigRc.options
+                            ).then((output) => {
+                                output.split('\n').forEach(
+                                    (line) => {
+                                        t.true(data.indexOf(encodeURI(line)) !== -1);
                                     }
+                                );
 
-                                    output.split('\n').forEach((line) => {
-                                        t.regex(data, new RegExp(encodeURI(line)));
-                                    });
-
-                                    return cleanupCallback();
-                                });
-                        });
+                                return cleanupCallback();
+                            })
+                        );
                 });
         })
 );

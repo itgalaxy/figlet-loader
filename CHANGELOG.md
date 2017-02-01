@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# Head
+
+- Changed: no longer required to transfer options for `figter` using `config` option.
+- Changed: to load configuration from file, need specify `useConfigFile` option.
+- Chore: no need to use function `encodeURI` for `query string`.
+
 # 1.1.1 - 2017-01-31
 
 - Fixed: updated webpack peer dependency to support `2.2.1`.

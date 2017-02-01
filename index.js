@@ -3,7 +3,21 @@
 'use strict';
 
 const figlet = require('figlet');
-const querystring = require('querystring');
+const loaderUtils = require('loader-utils');
+
+const DEFAULT_CONFIG = {
+    options: {
+        font: 'ANSI Shadow',
+        horizontalLayout: 'default',
+        kerning: 'default',
+        outputTextAfter: null,
+        outputTextAfterEscape: false,
+        outputTextBefore: null,
+        outputTextBeforeEscape: false,
+        verticalLayout: 'default'
+    },
+    text: 'FIGLET-LOADER'
+};
 
 function wrapOutput(output, config) {
     let figletOutput = '(function (root, factory) {'
@@ -31,7 +45,7 @@ function wrapOutput(output, config) {
             isNeedEscapeBefore
                 ? encodeURI(outputTextBefore)
                 : outputTextBefore
-        }");`;
+            }");`;
     }
 
     output.split('\n').forEach((line) => {
@@ -48,7 +62,7 @@ function wrapOutput(output, config) {
             isNeedEscapeAfter
                 ? encodeURI(outputTextAfter)
                 : outputTextAfter
-        }");`;
+            }");`;
     }
 
     figletOutput += '});';
@@ -72,41 +86,26 @@ module.exports = function (resolveConfig) {
     }
 
     const callback = this.async();
+    const query = loaderUtils.parseQuery(this.query);
 
-    let externalConfig = null;
+    let userConfig = null;
 
-    if (this.query.length > 0) {
-        let parsedQuery = {};
-
-        if (this.query.length > 0) {
-            parsedQuery = querystring.parse(this.query.slice(1, this.query.length));
-        }
-
-        if (parsedQuery.config) {
-            externalConfig = JSON.parse(parsedQuery.config);
+    if (Object.keys(query).length > 0) {
+        if (query.useConfigFile) {
+            userConfig = resolveConfig && isJSON(resolveConfig)
+                ? JSON.parse(resolveConfig)
+                : this.exec(resolveConfig, this.resource);
+        } else {
+            userConfig = query;
         }
     } else {
-        externalConfig = resolveConfig && isJSON(resolveConfig)
-            ? JSON.parse(resolveConfig)
-            : this.exec(resolveConfig, this.resource);
+        userConfig = {};
     }
 
     const config = Object.assign(
         {},
-        {
-            options: {
-                font: 'ANSI Shadow',
-                horizontalLayout: 'default',
-                kerning: 'default',
-                outputTextAfter: null,
-                outputTextAfterEscape: false,
-                outputTextBefore: null,
-                outputTextBeforeEscape: false,
-                verticalLayout: 'default'
-            },
-            text: 'FIGLET-LOADER'
-        },
-        externalConfig
+        DEFAULT_CONFIG,
+        userConfig
     );
 
     figlet.text(config.text, config.options, (error, output) => {

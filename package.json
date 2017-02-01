@@ -22,7 +22,8 @@
         "index.js"
     ],
     "dependencies": {
-        "figlet": "^1.1.0"
+        "figlet": "^1.1.0",
+        "loader-utils": "^0.2.16"
     },
     "devDependencies": {
         "ava": "^0.17.0",

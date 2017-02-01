@@ -9,5 +9,5 @@ module.exports = {
         kerning: "default",
         verticalLayout: "default"
     },
-    text: "ANOTHER-TEXT"
+    text: "ANOTHER-TEXT-JS-RC"
 };
