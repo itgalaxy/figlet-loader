@@ -64,19 +64,19 @@ Put the following code to your webpack config file:
 
 ```javascript
 module.exports = {
-  module: {
-    loaders: [
-      {
-        loader: "figlet?useConfigFile",
-        test: /\.figletrc$/, // or "/\.figletrc\.json$/", or "/\.figletrc\.js$/"
-      }
-    ]
-  },
-  resolve: {
-    alias: {
-      figlet$: path.resolve(__dirname, "path/to/.figletrc") // or "path/to/.figletrc.json", or "path/to/.figletrc.js"
+    module: {
+        loaders: [
+            {
+                loader: "figlet?useConfigFile",
+                test: /\.figletrc$/, // or "/\.figletrc\.json$/", or "/\.figletrc\.js$/"
+            }
+        ]
+    },
+    resolve: {
+        alias: {
+            figlet$: path.resolve(__dirname, "path/to/.figletrc") // or "path/to/.figletrc.json", or "path/to/.figletrc.js"
+        }
     }
-  }
 }
 ```
 
@@ -89,19 +89,19 @@ const figletConfig = {
 };
 
 module.exports = {
-  module: {
-    loaders: [
-      {
-       loader: `figlet?${JSON.stringify(figletConfig)}`,
-       test: /figlet$/
-      }
-    ]
-  },
-  resolve: {
-    alias: {
-      figlet$: path.resolve(__dirname, "path/to/empty-file") // You can add comment "Please do not delete this file" in this file
+    module: {
+        loaders: [
+            {
+                loader: `figlet?${JSON.stringify(figletConfig)}`,
+                test: /figlet$/
+            }
+        ]
+    },
+    resolve: {
+        alias: {
+            figlet$: path.resolve(__dirname, "path/to/empty-file") // You can add comment "Please do not delete this file" in this file
+        }
     }
-  }
 }
 ```
 
@@ -114,20 +114,20 @@ const figletConfig = {
 };
 
 module.exports = {
-  module: {
-    loaders: [
-      {
-        loader: `figlet-loader`,
-        options: figletConfig,
-        test: /figlet$/
-      }
-    ]
-  },
-  resolve: {
-    alias: {
-      figlet$: path.resolve(__dirname, "path/to/empty-file") // You can add comment "Please do not delete this file" in this file
+    module: {
+        loaders: [
+            {
+                loader: `figlet-loader`,
+                options: figletConfig,
+                test: /figlet$/
+            }
+        ]
+    },
+    resolve: {
+        alias: {
+            figlet$: path.resolve(__dirname, "path/to/empty-file") // You can add comment "Please do not delete this file" in this file
+        }
     }
-  }
 }
 ```
 
