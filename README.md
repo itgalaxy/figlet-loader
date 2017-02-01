@@ -83,7 +83,6 @@ module.exports = {
 Alternative configurations supported dynamic configuration:
 
 ```javascript
-const querystring = require('querystring');
 const figletConfig = {
     options: {},
     text: "ANOTHER-TEXT"
@@ -93,7 +92,7 @@ module.exports = {
   module: {
     loaders: [
       {
-       loader: `figlet?config=${JSON.stringify(figletConfig)}`,
+       loader: `figlet?${JSON.stringify(figletConfig)}`,
        test: /figlet$/
       }
     ]
