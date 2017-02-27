@@ -5,7 +5,7 @@
 const figlet = require('figlet');
 const loaderUtils = require('loader-utils');
 
-const DEFAULT_CONFIG = {
+const defaultOptions = {
     options: {
         font: 'ANSI Shadow',
         horizontalLayout: 'default',
@@ -86,26 +86,26 @@ module.exports = function (resolveConfig) {
     }
 
     const callback = this.async();
-    const query = loaderUtils.parseQuery(this.query);
+    const options = loaderUtils.getOptions(this);
 
-    let userConfig = null;
+    let userOptions = null;
 
-    if (Object.keys(query).length > 0) {
-        if (query.useConfigFile) {
-            userConfig = resolveConfig && isJSON(resolveConfig)
+    if (options) {
+        if (options.useConfigFile) {
+            userOptions = resolveConfig && isJSON(resolveConfig)
                 ? JSON.parse(resolveConfig)
                 : this.exec(resolveConfig, this.resource);
         } else {
-            userConfig = query;
+            userOptions = options;
         }
     } else {
-        userConfig = {};
+        userOptions = {};
     }
 
     const config = Object.assign(
         {},
-        DEFAULT_CONFIG,
-        userConfig
+        defaultOptions,
+        userOptions
     );
 
     figlet.text(config.text, config.options, (error, output) => {

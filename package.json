@@ -23,7 +23,7 @@
     ],
     "dependencies": {
         "figlet": "^1.1.0",
-        "loader-utils": "^0.2.16"
+        "loader-utils": "^1.0.0"
     },
     "devDependencies": {
         "ava": "^0.18.1",
@@ -46,14 +46,13 @@
         "nyc": "^10.0.0",
         "package-schema": "^1.0.0",
         "pify": "^2.3.0",
-        "remark-cli": "^2.0.0",
-        "remark-lint": "^5.0.0",
-        "remark-preset-lint-itgalaxy": "^4.0.0",
-        "webpack": "^2.2.1",
+        "remark-cli": "^3.0.0",
+        "remark-preset-lint-itgalaxy": "^5.0.0",
+        "webpack": "^2.0.0",
         "tmp": "^0.0.31"
     },
     "peerDependencies": {
-        "webpack": "^1.13.2 || ^2.2.1"
+        "webpack": "^2.0.0"
     },
     "scripts": {
         "lint:eslint": "eslint . --ignore-path .gitignore --ignore-pattern '**/fixtures/**'",
@@ -79,7 +78,7 @@
         "babel": "inherit"
     },
     "remarkConfig": {
-        "presets": [
+        "plugins": [
             "remark-preset-lint-itgalaxy"
         ]
     },

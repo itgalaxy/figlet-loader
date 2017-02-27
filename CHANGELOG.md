@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# Head
+
+- Fixed: minimum required `loader-utils` version is now `~1.0.0`.
+- Removed: support `webpack` version `1`.
+
 # 2.0.0 - 2017-02-01
 
 - Changed: no longer required to transfer options for `figter` using `config` option.
