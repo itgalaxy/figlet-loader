@@ -4,6 +4,7 @@
 [![Travis Build Status](https://img.shields.io/travis/itgalaxy/figlet-loader/master.svg?label=build)](https://travis-ci.org/itgalaxy/figlet-loader) 
 [![dependencies Status](https://david-dm.org/itgalaxy/figlet-loader/status.svg)](https://david-dm.org/itgalaxy/figlet-loader) 
 [![devDependencies Status](https://david-dm.org/itgalaxy/figlet-loader/dev-status.svg)](https://david-dm.org/itgalaxy/figlet-loader?type=dev)
+[![peerDependencies Status](https://david-dm.org/itgalaxy/figlet-loader/peer-status.svg)](https://david-dm.org/itgalaxy/figlet-loader?type=peer)
 
 Get your figlet build bundled with webpack.
 
