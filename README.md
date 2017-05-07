@@ -1,5 +1,7 @@
 # figlet-loader
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/itgalaxy/figlet-loader.svg)](https://greenkeeper.io/)
+
 [![NPM version](https://img.shields.io/npm/v/figlet-loader.svg)](https://www.npmjs.org/package/figlet-loader) 
 [![Travis Build Status](https://img.shields.io/travis/itgalaxy/figlet-loader/master.svg?label=build)](https://travis-ci.org/itgalaxy/figlet-loader) 
 [![dependencies Status](https://david-dm.org/itgalaxy/figlet-loader/status.svg)](https://david-dm.org/itgalaxy/figlet-loader) 
