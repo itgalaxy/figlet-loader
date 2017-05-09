@@ -5,6 +5,7 @@
 [![dependencies Status](https://david-dm.org/itgalaxy/figlet-loader/status.svg)](https://david-dm.org/itgalaxy/figlet-loader) 
 [![devDependencies Status](https://david-dm.org/itgalaxy/figlet-loader/dev-status.svg)](https://david-dm.org/itgalaxy/figlet-loader?type=dev)
 [![peerDependencies Status](https://david-dm.org/itgalaxy/figlet-loader/peer-status.svg)](https://david-dm.org/itgalaxy/figlet-loader?type=peer)
+[![Greenkeeper badge](https://badges.greenkeeper.io/itgalaxy/figlet-loader.svg)](https://greenkeeper.io/)
 
 Get your figlet build bundled with webpack.
 
