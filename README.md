@@ -159,7 +159,7 @@ figletLoader(() => {});
 
 ## Related
 
-- [figlet](https://github.com/patorjk/figlet.js) - API for this module
+-   [figlet](https://github.com/patorjk/figlet.js) - API for this module
 
 ## Contribution
 

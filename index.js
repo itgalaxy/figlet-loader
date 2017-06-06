@@ -20,49 +20,46 @@ const defaultOptions = {
 };
 
 function wrapOutput(output, config) {
-    let figletOutput = '(function (root, factory) {'
-        + "'use strict';"
-        + "if (typeof define === 'function' && define.amd) {"
-        + 'define([], factory);'
-        + "} else if (typeof exports === 'object'"
-        + "&& typeof module !== 'undefined'"
-        + "&& typeof require === 'function'"
-        + ') {'
-        + 'module.exports = factory();'
-        + '} else {'
-        + 'factory();'
-        + '}'
-        + '})(this, function () {'
-        + "'use strict';";
+    let figletOutput =
+        '(function (root, factory) {' +
+        "'use strict';" +
+        "if (typeof define === 'function' && define.amd) {" +
+        'define([], factory);' +
+        "} else if (typeof exports === 'object'" +
+        "&& typeof module !== 'undefined'" +
+        "&& typeof require === 'function'" +
+        ') {' +
+        'module.exports = factory();' +
+        '} else {' +
+        'factory();' +
+        '}' +
+        '})(this, function () {' +
+        "'use strict';";
 
     if (config.options.outputTextBefore) {
-        const {
-            outputTextBefore,
-            outputTextBeforeEscape: isNeedEscapeBefore
-        } = config.options;
+        /* eslint-disable prefer-destructuring */
+        const outputTextBefore = config.options.outputTextBefore;
+        const isNeedEscapeBefore = config.options.outputTextBeforeEscape;
+        /* eslint-enable prefer-destructuring */
 
-        figletOutput += `console.log("${
-            isNeedEscapeBefore
-                ? encodeURI(outputTextBefore)
-                : outputTextBefore
-            }");`;
+        figletOutput += `console.log("${isNeedEscapeBefore
+            ? encodeURI(outputTextBefore)
+            : outputTextBefore}");`;
     }
 
-    output.split('\n').forEach((line) => {
+    output.split('\n').forEach(line => {
         figletOutput += `console.log(decodeURI("${encodeURI(line)}"));`;
     });
 
     if (config.options.outputTextAfter) {
-        const {
-            outputTextAfter,
-            outputTextAfterEscape: isNeedEscapeAfter
-        } = config.options;
+        /* eslint-disable prefer-destructuring */
+        const outputTextAfter = config.options.outputTextAfter;
+        const isNeedEscapeAfter = config.options.outputTextAfterEscape;
+        /* eslint-enable prefer-destructuring */
 
-        figletOutput += `console.log("${
-            isNeedEscapeAfter
-                ? encodeURI(outputTextAfter)
-                : outputTextAfter
-            }");`;
+        figletOutput += `console.log("${isNeedEscapeAfter
+            ? encodeURI(outputTextAfter)
+            : outputTextAfter}");`;
     }
 
     figletOutput += '});';
@@ -73,14 +70,15 @@ function wrapOutput(output, config) {
 function isJSON(str) {
     try {
         JSON.parse(str);
-    } catch (error) { // eslint-disable-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars
+    } catch (error) {
         return false;
     }
 
     return true;
 }
 
-module.exports = function (resolveConfig) {
+module.exports = function(resolveConfig) {
     const callback = this.async();
     const options = loaderUtils.getOptions(this);
 
@@ -98,11 +96,7 @@ module.exports = function (resolveConfig) {
         userOptions = {};
     }
 
-    const config = Object.assign(
-        {},
-        defaultOptions,
-        userOptions
-    );
+    const config = Object.assign({}, defaultOptions, userOptions);
 
     figlet.text(config.text, config.options, (error, output) => {
         if (error) {
