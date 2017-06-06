@@ -4,8 +4,9 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-# Head
+# 3.0.1 - 2017-06-06
 
+-   Fixed: problems with `nodejs` v4.
 -   Refactor: remove unnecessary code for `webpack` v1.
 
 # 3.0.0 - 2017-02-27

@@ -1,6 +1,6 @@
 {
     "name": "figlet-loader",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "Get your figlet build bundled with webpack, use figlet with webpack easily",
     "repository": {
         "type": "git",
