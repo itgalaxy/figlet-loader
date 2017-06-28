@@ -1,1 +1,1 @@
-require('./.figletrc.js');
+require("./.figletrc.js");

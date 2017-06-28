@@ -1,39 +1,39 @@
 /* eslint-disable strict, import/no-commonjs */
 
-'use strict';
+"use strict";
 
-const figlet = require('figlet');
-const loaderUtils = require('loader-utils');
+const figlet = require("figlet");
+const loaderUtils = require("loader-utils");
 
 const defaultOptions = {
     options: {
-        font: 'ANSI Shadow',
-        horizontalLayout: 'default',
-        kerning: 'default',
+        font: "ANSI Shadow",
+        horizontalLayout: "default",
+        kerning: "default",
         outputTextAfter: null,
         outputTextAfterEscape: false,
         outputTextBefore: null,
         outputTextBeforeEscape: false,
-        verticalLayout: 'default'
+        verticalLayout: "default"
     },
-    text: 'FIGLET-LOADER'
+    text: "FIGLET-LOADER"
 };
 
 function wrapOutput(output, config) {
     let figletOutput =
-        '(function (root, factory) {' +
+        "(function (root, factory) {" +
         "'use strict';" +
         "if (typeof define === 'function' && define.amd) {" +
-        'define([], factory);' +
+        "define([], factory);" +
         "} else if (typeof exports === 'object'" +
         "&& typeof module !== 'undefined'" +
         "&& typeof require === 'function'" +
-        ') {' +
-        'module.exports = factory();' +
-        '} else {' +
-        'factory();' +
-        '}' +
-        '})(this, function () {' +
+        ") {" +
+        "module.exports = factory();" +
+        "} else {" +
+        "factory();" +
+        "}" +
+        "})(this, function () {" +
         "'use strict';";
 
     if (config.options.outputTextBefore) {
@@ -47,7 +47,7 @@ function wrapOutput(output, config) {
             : outputTextBefore}");`;
     }
 
-    output.split('\n').forEach(line => {
+    output.split("\n").forEach(line => {
         figletOutput += `console.log(decodeURI("${encodeURI(line)}"));`;
     });
 
@@ -62,7 +62,7 @@ function wrapOutput(output, config) {
             : outputTextAfter}");`;
     }
 
-    figletOutput += '});';
+    figletOutput += "});";
 
     return figletOutput;
 }
@@ -86,9 +86,10 @@ module.exports = function(resolveConfig) {
 
     if (options) {
         if (options.useConfigFile) {
-            userOptions = resolveConfig && isJSON(resolveConfig)
-                ? JSON.parse(resolveConfig)
-                : this.exec(resolveConfig, this.resource);
+            userOptions =
+                resolveConfig && isJSON(resolveConfig)
+                    ? JSON.parse(resolveConfig)
+                    : this.exec(resolveConfig, this.resource);
         } else {
             userOptions = options;
         }

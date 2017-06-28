@@ -1,1 +1,1 @@
-require('figlet');
+require("figlet");

@@ -1,1 +1,1 @@
-require('./.figletrc.json');
+require("./.figletrc.json");

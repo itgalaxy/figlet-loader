@@ -1,20 +1,20 @@
-import figlet from 'figlet';
-import figletConfigInvalid from './fixtures/.figletrc-invalid.json';
-import figletConfigJSONRc from './fixtures/.figletrc.json';
-import figletConfigRc from './fixtures/.figletrc';
-import fs from 'fs';
-import path from 'path';
-import pify from 'pify';
-import test from 'ava';
-import tmp from 'tmp';
-import webpack from 'webpack';
+import figlet from "figlet";
+import figletConfigInvalid from "./fixtures/.figletrc-invalid.json";
+import figletConfigJSONRc from "./fixtures/.figletrc.json";
+import figletConfigRc from "./fixtures/.figletrc";
+import fs from "fs";
+import path from "path";
+import pify from "pify";
+import test from "ava";
+import tmp from "tmp";
+import webpack from "webpack";
 
-const loader = path.resolve(__dirname, '../index.js');
-const fixturesDir = path.resolve(__dirname, 'fixtures');
+const loader = path.resolve(__dirname, "../index.js");
+const fixturesDir = path.resolve(__dirname, "fixtures");
 
 tmp.setGracefulCleanup();
 
-test('should execute successfully without any options', t =>
+test("should execute successfully without any options", t =>
     pify(tmp.dir, {
         multiArgs: true
     })({
@@ -22,21 +22,21 @@ test('should execute successfully without any options', t =>
     }).then(result => {
         const DEFAULT_CONFIG = {
             options: {
-                font: 'ANSI Shadow',
-                horizontalLayout: 'default',
-                kerning: 'default',
+                font: "ANSI Shadow",
+                horizontalLayout: "default",
+                kerning: "default",
                 outputTextAfter: null,
                 outputTextAfterEscape: false,
                 outputTextBefore: null,
                 outputTextBeforeEscape: false,
-                verticalLayout: 'default'
+                verticalLayout: "default"
             },
-            text: 'FIGLET-LOADER'
+            text: "FIGLET-LOADER"
         };
         const [tmpPath, cleanupCallback] = result;
         const webpackConfig = {
             context: fixturesDir,
-            entry: './index1.js',
+            entry: "./index1.js",
             module: {
                 rules: [
                     {
@@ -46,7 +46,7 @@ test('should execute successfully without any options', t =>
                 ]
             },
             output: {
-                filename: 'bundle.js',
+                filename: "bundle.js",
                 path: `${tmpPath}`
             }
         };
@@ -54,18 +54,18 @@ test('should execute successfully without any options', t =>
         return pify(webpack)(webpackConfig).then(stats => {
             t.true(
                 stats.compilation.errors.length === 0,
-                'no compilation error'
+                "no compilation error"
             );
 
             return pify(fs.readFile)(
                 `${tmpPath}/bundle.js`,
-                'utf8'
+                "utf8"
             ).then(data =>
                 pify(figlet.text)(
                     DEFAULT_CONFIG.text,
                     DEFAULT_CONFIG.options
                 ).then(output => {
-                    output.split('\n').forEach(line => {
+                    output.split("\n").forEach(line => {
                         t.true(data.indexOf(encodeURI(line)) !== -1);
                     });
 
@@ -84,7 +84,7 @@ test('should execute successfully with JSON config and use `require("./.figletrc
         const [tmpPath, cleanupCallback] = result;
         const webpackConfig = {
             context: fixturesDir,
-            entry: './index.js',
+            entry: "./index.js",
             module: {
                 rules: [
                     {
@@ -94,7 +94,7 @@ test('should execute successfully with JSON config and use `require("./.figletrc
                 ]
             },
             output: {
-                filename: 'bundle.js',
+                filename: "bundle.js",
                 path: `${tmpPath}`
             }
         };
@@ -102,18 +102,18 @@ test('should execute successfully with JSON config and use `require("./.figletrc
         return pify(webpack)(webpackConfig).then(stats => {
             t.true(
                 stats.compilation.errors.length === 0,
-                'no compilation error'
+                "no compilation error"
             );
 
             return pify(fs.readFile)(
                 `${tmpPath}/bundle.js`,
-                'utf8'
+                "utf8"
             ).then(data =>
                 pify(figlet.text)(
                     figletConfigJSONRc.text,
                     figletConfigJSONRc.options
                 ).then(output => {
-                    output.split('\n').forEach(line => {
+                    output.split("\n").forEach(line => {
                         t.true(data.indexOf(encodeURI(line)) !== -1);
                     });
 
@@ -132,7 +132,7 @@ test('should execute successfully with JS config and use `require("./.figletrc.j
         const [tmpPath, cleanupCallback] = result;
         const webpackConfig = {
             context: fixturesDir,
-            entry: './index2.js',
+            entry: "./index2.js",
             module: {
                 rules: [
                     {
@@ -142,7 +142,7 @@ test('should execute successfully with JS config and use `require("./.figletrc.j
                 ]
             },
             output: {
-                filename: 'bundle.js',
+                filename: "bundle.js",
                 path: `${tmpPath}`
             }
         };
@@ -150,18 +150,18 @@ test('should execute successfully with JS config and use `require("./.figletrc.j
         return pify(webpack)(webpackConfig).then(stats => {
             t.true(
                 stats.compilation.errors.length === 0,
-                'no compilation error'
+                "no compilation error"
             );
 
             return pify(fs.readFile)(
                 `${tmpPath}/bundle.js`,
-                'utf8'
+                "utf8"
             ).then(data =>
                 pify(figlet.text)(
                     figletConfigRc.text,
                     figletConfigRc.options
                 ).then(output => {
-                    output.split('\n').forEach(line => {
+                    output.split("\n").forEach(line => {
                         t.true(data.indexOf(encodeURI(line)) !== -1);
                     });
 
@@ -180,7 +180,7 @@ test('should execute successfully with JSON config and use `require("figlet")`',
         const [tmpPath, cleanupCallback] = result;
         const webpackConfig = {
             context: fixturesDir,
-            entry: './index1.js',
+            entry: "./index1.js",
             module: {
                 rules: [
                     {
@@ -190,7 +190,7 @@ test('should execute successfully with JSON config and use `require("figlet")`',
                 ]
             },
             output: {
-                filename: 'bundle.js',
+                filename: "bundle.js",
                 path: `${tmpPath}`
             },
             resolve: {
@@ -198,7 +198,7 @@ test('should execute successfully with JSON config and use `require("figlet")`',
                     // eslint-disable-next-line id-match
                     figlet$: `${path.resolve(
                         __dirname,
-                        'fixtures/.figletrc.json'
+                        "fixtures/.figletrc.json"
                     )}`
                 }
             }
@@ -207,18 +207,18 @@ test('should execute successfully with JSON config and use `require("figlet")`',
         return pify(webpack)(webpackConfig).then(stats => {
             t.true(
                 stats.compilation.errors.length === 0,
-                'no compilation error'
+                "no compilation error"
             );
 
             return pify(fs.readFile)(
                 `${tmpPath}/bundle.js`,
-                'utf8'
+                "utf8"
             ).then(data =>
                 pify(figlet.text)(
                     figletConfigJSONRc.text,
                     figletConfigJSONRc.options
                 ).then(output => {
-                    output.split('\n').forEach(line => {
+                    output.split("\n").forEach(line => {
                         t.true(data.indexOf(encodeURI(line)) !== -1);
                     });
 
@@ -237,7 +237,7 @@ test('should execute successfully with JS config and use `require("figlet")`', t
         const [tmpPath, cleanupCallback] = result;
         const webpackConfig = {
             context: fixturesDir,
-            entry: './index1.js',
+            entry: "./index1.js",
             module: {
                 loaders: [
                     {
@@ -247,7 +247,7 @@ test('should execute successfully with JS config and use `require("figlet")`', t
                 ]
             },
             output: {
-                filename: 'bundle.js',
+                filename: "bundle.js",
                 path: `${tmpPath}`
             },
             resolve: {
@@ -255,7 +255,7 @@ test('should execute successfully with JS config and use `require("figlet")`', t
                     // eslint-disable-next-line id-match
                     figlet$: `${path.resolve(
                         __dirname,
-                        'fixtures/.figletrc.js'
+                        "fixtures/.figletrc.js"
                     )}`
                 }
             }
@@ -264,18 +264,18 @@ test('should execute successfully with JS config and use `require("figlet")`', t
         return pify(webpack)(webpackConfig).then(stats => {
             t.true(
                 stats.compilation.errors.length === 0,
-                'no compilation error'
+                "no compilation error"
             );
 
             return pify(fs.readFile)(
                 `${tmpPath}/bundle.js`,
-                'utf8'
+                "utf8"
             ).then(data =>
                 pify(figlet.text)(
                     figletConfigRc.text,
                     figletConfigRc.options
                 ).then(output => {
-                    output.split('\n').forEach(line => {
+                    output.split("\n").forEach(line => {
                         t.true(data.indexOf(encodeURI(line)) !== -1);
                     });
 
@@ -294,7 +294,7 @@ test('should execute successfully using `options` and use `require("figlet")`', 
         const [tmpPath, cleanupCallback] = result;
         const webpackConfig = {
             context: fixturesDir,
-            entry: './index1.js',
+            entry: "./index1.js",
             module: {
                 rules: [
                     {
@@ -305,12 +305,12 @@ test('should execute successfully using `options` and use `require("figlet")`', 
                 ]
             },
             output: {
-                filename: 'bundle.js',
+                filename: "bundle.js",
                 path: `${tmpPath}`
             },
             resolve: {
                 alias: {
-                    figlet$: `${path.resolve(__dirname, 'fixtures/figlet.js')}` // eslint-disable-line id-match
+                    figlet$: `${path.resolve(__dirname, "fixtures/figlet.js")}` // eslint-disable-line id-match
                 }
             }
         };
@@ -318,18 +318,18 @@ test('should execute successfully using `options` and use `require("figlet")`', 
         return pify(webpack)(webpackConfig).then(stats => {
             t.true(
                 stats.compilation.errors.length === 0,
-                'no compilation error'
+                "no compilation error"
             );
 
             return pify(fs.readFile)(
                 `${tmpPath}/bundle.js`,
-                'utf8'
+                "utf8"
             ).then(data =>
                 pify(figlet.text)(
                     figletConfigJSONRc.text,
                     figletConfigJSONRc.options
                 ).then(output => {
-                    output.split('\n').forEach(line => {
+                    output.split("\n").forEach(line => {
                         t.true(data.indexOf(encodeURI(line)) !== -1);
                     });
 
@@ -339,7 +339,7 @@ test('should execute successfully using `options` and use `require("figlet")`', 
         });
     }));
 
-test('should throw error on invalid config', t =>
+test("should throw error on invalid config", t =>
     pify(tmp.dir, {
         multiArgs: true
     })({
@@ -348,7 +348,7 @@ test('should throw error on invalid config', t =>
         const [tmpPath, cleanupCallback] = result;
         const webpackConfig = {
             context: fixturesDir,
-            entry: './index1.js',
+            entry: "./index1.js",
             module: {
                 rules: [
                     {
@@ -359,13 +359,13 @@ test('should throw error on invalid config', t =>
                 ]
             },
             output: {
-                filename: 'bundle.js',
+                filename: "bundle.js",
                 path: `${tmpPath}`
             }
         };
 
         return pify(webpack)(webpackConfig).then(stats => {
-            t.true(stats.compilation.errors.length > 0, 'compilation error');
+            t.true(stats.compilation.errors.length > 0, "compilation error");
 
             return cleanupCallback();
         });
@@ -380,7 +380,7 @@ test('should supported `config` from "query string"', t =>
         const [tmpPath, cleanupCallback] = result;
         const webpackConfig = {
             context: fixturesDir,
-            entry: './index.js',
+            entry: "./index.js",
             module: {
                 loaders: [
                     {
@@ -390,7 +390,7 @@ test('should supported `config` from "query string"', t =>
                 ]
             },
             output: {
-                filename: 'bundle.js',
+                filename: "bundle.js",
                 path: `${tmpPath}`
             }
         };
@@ -398,18 +398,18 @@ test('should supported `config` from "query string"', t =>
         return pify(webpack)(webpackConfig).then(stats => {
             t.true(
                 stats.compilation.errors.length === 0,
-                'no compilation error'
+                "no compilation error"
             );
 
             return pify(fs.readFile)(
                 `${tmpPath}/bundle.js`,
-                'utf8'
+                "utf8"
             ).then(data =>
                 pify(figlet.text)(
                     figletConfigRc.text,
                     figletConfigRc.options
                 ).then(output => {
-                    output.split('\n').forEach(line => {
+                    output.split("\n").forEach(line => {
                         t.true(data.indexOf(encodeURI(line)) !== -1);
                     });
 
