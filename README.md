@@ -26,7 +26,9 @@ There are three use case.
 1. Using loader `options`.
 
 ```javascript
-import 'figlet'; // or `const figlet = require('figlet');`
+import content from 'figlet'; // or `const content = require('figlet');`
+
+console.log(content);
 ```
 
 **webpack.config.js**
@@ -45,11 +47,9 @@ module.exports = {
             kerning: "default",
             verticalLayout: "default"
           },
-          outputTextBefore: "TEXT BEFORE",
-          outputTextBeforeEscape: true,
+          textBefore: "TEXT BEFORE",
           text: "ANOTHER-TEXT",
-          outputTextAfter: "TEXT AFTER",
-          outputTextAfterEscape: true
+          textAfter: "TEXT AFTER"
         },
         test: /empty-alias-file\.js$/
       }
@@ -67,7 +67,9 @@ module.exports = {
 2. Using config file through alias (supported **JavaScript** and **JSON** syntax).
 
 ```javascript
-import 'figlet'; // or `const figlet = require('figlet');`
+import context from 'figlet'; // or `const content = require('figlet');`
+
+console.log(content);
 ```
 
 **.figletrc.js**
@@ -82,9 +84,9 @@ module.exports = {
     kerning: "default",
     verticalLayout: "default"
   },
+  textBefore: "TEXT BEFORE",
   text: "ANOTHER-TEXT-JS-RC",
-  outputTextBefore: "TEXT BEFORE",
-  outputTextAfter: "TEXT AFTER"
+  textAfter: "TEXT AFTER"
 };
 ```
 
@@ -111,7 +113,9 @@ module.exports = {
 3. Using config (supported **JavaScript** and **JSON** syntax) file directly (see below example how it is use).
 
 ```javascript
-import '.figletrc.js';
+import content from '.figletrc.js';
+
+console.log(content);
 ```
 
 **webpack.config.js**
@@ -136,7 +140,7 @@ Async loading:
 1. Using `webpack` dynamic `import`.
 
 ```javascript
-import('figlet').then(() => {});
+import('figlet').then((content) => console.log(content));
 ```
 
 2. You can used [bundle](https://github.com/webpack/bundle-loader) plugin for async loading:
@@ -144,7 +148,7 @@ import('figlet').then(() => {});
 ```javascript
 import figletLoader from 'bundle?lazy!figlet';
 
-figletLoader(() => {});
+figletLoader((content) => console.log(content));
 ```
 
 ## Related

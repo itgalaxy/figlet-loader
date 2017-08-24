@@ -6,6 +6,6 @@
     "verticalLayout": "default"
   },
   "text": "ANOTHER-TEXT-JSON-RC",
-  "outputTextBefore": "TEXT BEFORE",
-  "outputTextAfter": "TEXT AFTER"
+  "textBefore": "TEXT BEFORE",
+  "textAfter": "TEXT AFTER"
 }

@@ -8,6 +8,6 @@ module.exports = {
     verticalLayout: "default"
   },
   text: "ANOTHER-TEXT-JS-RC",
-  outputTextBefore: "TEXT BEFORE",
-  outputTextAfter: "TEXT AFTER"
+  textBefore: "TEXT BEFORE",
+  textAfter: "TEXT AFTER"
 };

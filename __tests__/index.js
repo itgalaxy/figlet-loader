@@ -40,6 +40,9 @@ test("should execute successfully using config file inside `require`", t => {
         figletConfigJSONRc.text,
         figletConfigJSONRc.fontOptions
       ).then(output => {
+        t.true(data.indexOf(encodeURI(figletConfigJSONRc.textBefore)) !== -1);
+        t.true(data.indexOf(encodeURI(figletConfigJSONRc.textAfter)) !== -1);
+
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
         });
@@ -84,6 +87,9 @@ test("should execute successfully using options and alias with empty file", t =>
         figletConfigJSONRc.text,
         figletConfigJSONRc.fontOptions
       ).then(output => {
+        t.true(data.indexOf(encodeURI(figletConfigJSONRc.textBefore)) !== -1);
+        t.true(data.indexOf(encodeURI(figletConfigJSONRc.textAfter)) !== -1);
+
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
         });
@@ -128,6 +134,9 @@ test("should execute successfully using options and alias with non-empty file", 
         figletConfigJSONRc.text,
         figletConfigJSONRc.fontOptions
       ).then(output => {
+        t.true(data.indexOf(encodeURI(figletConfigJSONRc.textBefore)) !== -1);
+        t.true(data.indexOf(encodeURI(figletConfigJSONRc.textAfter)) !== -1);
+
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
         });
@@ -225,6 +234,9 @@ test("should execute successfully using alias as JSON config file", t => {
         figletConfigJSONRc.text,
         figletConfigJSONRc.fontOptions
       ).then(output => {
+        t.true(data.indexOf(encodeURI(figletConfigJSONRc.textBefore)) !== -1);
+        t.true(data.indexOf(encodeURI(figletConfigJSONRc.textAfter)) !== -1);
+
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
         });
@@ -268,6 +280,9 @@ test("should execute successfully using alias as JavaScript config file", t => {
         figletConfigRc.text,
         figletConfigRc.fontOptions
       ).then(output => {
+        t.true(data.indexOf(encodeURI(figletConfigRc.textBefore)) !== -1);
+        t.true(data.indexOf(encodeURI(figletConfigRc.textAfter)) !== -1);
+
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
         });

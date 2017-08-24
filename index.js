@@ -4,41 +4,21 @@ const figlet = require("figlet");
 const loaderUtils = require("loader-utils");
 
 function wrapOutput(output, config) {
-  let figletOutput =
-    "(function (root, factory) {" +
-    "'use strict';" +
-    "if (typeof define === 'function' && define.amd) {" +
-    "define([], factory);" +
-    "} else if (typeof exports === 'object'" +
-    "&& typeof module !== 'undefined'" +
-    "&& typeof require === 'function'" +
-    ") {" +
-    "module.exports = factory();" +
-    "} else {" +
-    "factory();" +
-    "}" +
-    "})(this, function () {" +
-    "'use strict';";
+  let figletOutput = "";
 
-  if (config.outputTextBefore) {
-    figletOutput += `console.log(decodeURI("${encodeURI(
-      config.outputTextBefore
-    )}"));`;
+  if (config.textBefore) {
+    figletOutput += encodeURI(`${config.textBefore}\n`);
   }
 
   output.split("\n").forEach(line => {
-    figletOutput += `console.log(decodeURI("${encodeURI(line)}"));`;
+    figletOutput += encodeURI(`${line}\n`);
   });
 
-  if (config.outputTextAfter) {
-    figletOutput += `console.log(decodeURI("${encodeURI(
-      config.outputTextAfter
-    )}"));`;
+  if (config.textAfter) {
+    figletOutput += encodeURI(`${config.textAfter}\n`);
   }
 
-  figletOutput += "});";
-
-  return figletOutput;
+  return `module.exports = decodeURI("${figletOutput}");`;
 }
 
 module.exports = function() {
@@ -53,10 +33,8 @@ module.exports = function() {
       verticalLayout: "default"
     },
     text: "FIGLET-LOADER",
-    outputTextAfter: null,
-    outputTextAfterEscape: false,
-    outputTextBefore: null,
-    outputTextBeforeEscape: false
+    textAfter: null,
+    textBefore: null
   };
   let userConfig = {};
 
