@@ -149,9 +149,7 @@ test("should execute successfully using alias with empty file", t => {
     },
     text: "FIGLET-LOADER",
     outputTextAfter: null,
-    outputTextAfterEscape: false,
-    outputTextBefore: null,
-    outputTextBeforeEscape: false
+    outputTextBefore: null
   };
   const webpackConfig = {
     context: fixturesDir,

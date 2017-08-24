@@ -21,14 +21,9 @@ function wrapOutput(output, config) {
     "'use strict';";
 
   if (config.outputTextBefore) {
-    /* eslint-disable prefer-destructuring */
-    const outputTextBefore = config.outputTextBefore;
-    const isNeedEscapeBefore = config.outputTextBeforeEscape;
-    /* eslint-enable prefer-destructuring */
-
-    figletOutput += `console.log("${isNeedEscapeBefore
-      ? encodeURI(outputTextBefore)
-      : outputTextBefore}");`;
+    figletOutput += `console.log(decodeURI("${encodeURI(
+      config.outputTextBefore
+    )}"));`;
   }
 
   output.split("\n").forEach(line => {
@@ -36,14 +31,9 @@ function wrapOutput(output, config) {
   });
 
   if (config.outputTextAfter) {
-    /* eslint-disable prefer-destructuring */
-    const outputTextAfter = config.outputTextAfter;
-    const isNeedEscapeAfter = config.outputTextAfterEscape;
-    /* eslint-enable prefer-destructuring */
-
-    figletOutput += `console.log("${isNeedEscapeAfter
-      ? encodeURI(outputTextAfter)
-      : outputTextAfter}");`;
+    figletOutput += `console.log(decodeURI("${encodeURI(
+      config.outputTextAfter
+    )}"));`;
   }
 
   figletOutput += "});";
