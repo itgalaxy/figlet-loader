@@ -3,20 +3,6 @@
 const figlet = require("figlet");
 const loaderUtils = require("loader-utils");
 
-const defaultOptions = {
-  fontOptions: {
-    font: "ANSI Shadow",
-    horizontalLayout: "default",
-    kerning: "default",
-    verticalLayout: "default"
-  },
-  text: "FIGLET-LOADER",
-  outputTextAfter: null,
-  outputTextAfterEscape: false,
-  outputTextBefore: null,
-  outputTextBeforeEscape: false
-};
-
 function wrapOutput(output, config) {
   let figletOutput =
     "(function (root, factory) {" +
@@ -65,39 +51,39 @@ function wrapOutput(output, config) {
   return figletOutput;
 }
 
-function isJSON(str) {
-  try {
-    JSON.parse(str);
-    // eslint-disable-next-line no-unused-vars
-  } catch (error) {
-    return false;
-  }
-
-  return true;
-}
-
-module.exports = function(resolveConfig) {
+module.exports = function() {
   const callback = this.async();
   const options = loaderUtils.getOptions(this) || {};
 
-  let userOptions = null;
+  const defaultConfig = {
+    fontOptions: {
+      font: "ANSI Shadow",
+      horizontalLayout: "default",
+      kerning: "default",
+      verticalLayout: "default"
+    },
+    text: "FIGLET-LOADER",
+    outputTextAfter: null,
+    outputTextAfterEscape: false,
+    outputTextBefore: null,
+    outputTextBeforeEscape: false
+  };
+  let userConfig = {};
 
-  if (options) {
-    if (options.useConfigFile) {
-      userOptions =
-        resolveConfig && isJSON(resolveConfig)
-          ? JSON.parse(resolveConfig)
-          : this.exec(resolveConfig, this.resource);
-    } else {
-      userOptions = options;
+  if (Object.keys(options).length === 0) {
+    try {
+      // eslint-disable-next-line import/no-dynamic-require, global-require
+      userConfig = require(this.resource);
+    } catch (error) {
+      return callback(error);
     }
   } else {
-    userOptions = {};
+    userConfig = options;
   }
 
-  const config = Object.assign({}, defaultOptions, userOptions);
+  const config = Object.assign({}, defaultConfig, userConfig);
 
-  figlet.text(config.text, config.fontOptions, (error, output) => {
+  return figlet.text(config.text, config.fontOptions, (error, output) => {
     if (error) {
       return callback(error);
     }

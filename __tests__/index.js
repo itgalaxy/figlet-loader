@@ -12,58 +12,7 @@ import webpack from "webpack";
 const loader = path.resolve(__dirname, "../index.js");
 const fixturesDir = path.resolve(__dirname, "fixtures");
 
-test("should execute successfully without any options", t => {
-  const buildDir = tempy.directory();
-  const DEFAULT_CONFIG = {
-    fontOptions: {
-      font: "ANSI Shadow",
-      horizontalLayout: "default",
-      kerning: "default",
-      verticalLayout: "default"
-    },
-    outputTextAfter: null,
-    outputTextAfterEscape: false,
-    outputTextBefore: null,
-    outputTextBeforeEscape: false,
-    text: "FIGLET-LOADER"
-  };
-  const webpackConfig = {
-    context: fixturesDir,
-    entry: "./index1.js",
-    module: {
-      rules: [
-        {
-          loader: `${loader}`,
-          test: /figlet\.js$/
-        }
-      ]
-    },
-    output: {
-      filename: "bundle.js",
-      path: buildDir
-    }
-  };
-
-  return pify(webpack)(webpackConfig).then(stats => {
-    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
-    t.true(stats.compilation.errors.length === 0, "no compilation error");
-
-    return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
-      pify(figlet.text)(
-        DEFAULT_CONFIG.text,
-        DEFAULT_CONFIG.fontOptions
-      ).then(output => {
-        output.split("\n").forEach(line => {
-          t.true(data.indexOf(encodeURI(line)) !== -1);
-        });
-
-        return Promise.resolve();
-      })
-    );
-  });
-});
-
-test('should execute successfully with JSON config and use `require("./.figletrc.json")`', t => {
+test("should execute successfully using config file inside `require`", t => {
   const buildDir = tempy.directory();
   const webpackConfig = {
     context: fixturesDir,
@@ -71,7 +20,7 @@ test('should execute successfully with JSON config and use `require("./.figletrc
     module: {
       rules: [
         {
-          loader: `${loader}?useConfigFile`,
+          loader,
           test: /\.figletrc\.json$/
         }
       ]
@@ -101,137 +50,11 @@ test('should execute successfully with JSON config and use `require("./.figletrc
   });
 });
 
-test('should execute successfully with JS config and use `require("./.figletrc.js")`', t => {
+test("should execute successfully using options and alias with empty file", t => {
   const buildDir = tempy.directory();
   const webpackConfig = {
     context: fixturesDir,
-    entry: "./index2.js",
-    module: {
-      rules: [
-        {
-          loader: `${loader}?useConfigFile`,
-          test: /\.figletrc\.js$/
-        }
-      ]
-    },
-    output: {
-      filename: "bundle.js",
-      path: buildDir
-    }
-  };
-
-  return pify(webpack)(webpackConfig).then(stats => {
-    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
-    t.true(stats.compilation.errors.length === 0, "no compilation error");
-
-    return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
-      pify(figlet.text)(
-        figletConfigRc.text,
-        figletConfigRc.fontOptions
-      ).then(output => {
-        output.split("\n").forEach(line => {
-          t.true(data.indexOf(encodeURI(line)) !== -1);
-        });
-
-        return Promise.resolve();
-      })
-    );
-  });
-});
-
-test('should execute successfully with JSON config and use `require("figlet")`', t => {
-  const buildDir = tempy.directory();
-  const webpackConfig = {
-    context: fixturesDir,
-    entry: "./index1.js",
-    module: {
-      rules: [
-        {
-          loader: `${loader}?useConfigFile`,
-          test: /\.figletrc\.json$/
-        }
-      ]
-    },
-    output: {
-      filename: "bundle.js",
-      path: buildDir
-    },
-    resolve: {
-      alias: {
-        // eslint-disable-next-line id-match
-        figlet$: `${path.resolve(__dirname, "fixtures/.figletrc.json")}`
-      }
-    }
-  };
-
-  return pify(webpack)(webpackConfig).then(stats => {
-    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
-    t.true(stats.compilation.errors.length === 0, "no compilation error");
-
-    return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
-      pify(figlet.text)(
-        figletConfigJSONRc.text,
-        figletConfigJSONRc.fontOptions
-      ).then(output => {
-        output.split("\n").forEach(line => {
-          t.true(data.indexOf(encodeURI(line)) !== -1);
-        });
-
-        return Promise.resolve();
-      })
-    );
-  });
-});
-
-test('should execute successfully with JS config and use `require("figlet")`', t => {
-  const buildDir = tempy.directory();
-  const webpackConfig = {
-    context: fixturesDir,
-    entry: "./index1.js",
-    module: {
-      loaders: [
-        {
-          loader: `${loader}?useConfigFile`,
-          test: /\.figletrc\.js$/
-        }
-      ]
-    },
-    output: {
-      filename: "bundle.js",
-      path: buildDir
-    },
-    resolve: {
-      alias: {
-        // eslint-disable-next-line id-match
-        figlet$: `${path.resolve(__dirname, "fixtures/.figletrc.js")}`
-      }
-    }
-  };
-
-  return pify(webpack)(webpackConfig).then(stats => {
-    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
-    t.true(stats.compilation.errors.length === 0, "no compilation error");
-
-    return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
-      pify(figlet.text)(
-        figletConfigRc.text,
-        figletConfigRc.fontOptions
-      ).then(output => {
-        output.split("\n").forEach(line => {
-          t.true(data.indexOf(encodeURI(line)) !== -1);
-        });
-
-        return Promise.resolve();
-      })
-    );
-  });
-});
-
-test('should execute successfully using `options` and use `require("figlet")`', t => {
-  const buildDir = tempy.directory();
-  const webpackConfig = {
-    context: fixturesDir,
-    entry: "./index1.js",
+    entry: "./index-1.js",
     module: {
       rules: [
         {
@@ -271,16 +94,72 @@ test('should execute successfully using `options` and use `require("figlet")`', 
   });
 });
 
-test("should throw error on invalid config", t => {
+test("should execute successfully using options and alias with non-empty file", t => {
   const buildDir = tempy.directory();
   const webpackConfig = {
     context: fixturesDir,
-    entry: "./index1.js",
+    entry: "./index-1.js",
     module: {
       rules: [
         {
           loader,
-          options: figletConfigInvalid,
+          options: figletConfigJSONRc,
+          test: /\.figletrc\.js$/
+        }
+      ]
+    },
+    output: {
+      filename: "bundle.js",
+      path: buildDir
+    },
+    resolve: {
+      alias: {
+        figlet$: `${path.resolve(__dirname, "fixtures/.figletrc.js")}` // eslint-disable-line id-match
+      }
+    }
+  };
+
+  return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
+    t.true(stats.compilation.errors.length === 0, "no compilation error");
+
+    return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
+      pify(figlet.text)(
+        figletConfigJSONRc.text,
+        figletConfigJSONRc.fontOptions
+      ).then(output => {
+        output.split("\n").forEach(line => {
+          t.true(data.indexOf(encodeURI(line)) !== -1);
+        });
+
+        return Promise.resolve();
+      })
+    );
+  });
+});
+
+test("should execute successfully using alias with empty file", t => {
+  const buildDir = tempy.directory();
+  const defaultConfig = {
+    fontOptions: {
+      font: "ANSI Shadow",
+      horizontalLayout: "default",
+      kerning: "default",
+      verticalLayout: "default"
+    },
+    text: "FIGLET-LOADER",
+    outputTextAfter: null,
+    outputTextAfterEscape: false,
+    outputTextBefore: null,
+    outputTextBeforeEscape: false
+  };
+  const webpackConfig = {
+    context: fixturesDir,
+    entry: "./index-1.js",
+    module: {
+      rules: [
+        {
+          loader,
           test: /figlet\.js$/
         }
       ]
@@ -288,26 +167,42 @@ test("should throw error on invalid config", t => {
     output: {
       filename: "bundle.js",
       path: buildDir
+    },
+    resolve: {
+      alias: {
+        figlet$: `${path.resolve(__dirname, "fixtures/figlet.js")}` // eslint-disable-line id-match
+      }
     }
   };
 
   return pify(webpack)(webpackConfig).then(stats => {
     t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
-    t.true(stats.compilation.errors.length > 0, "compilation error");
+    t.true(stats.compilation.errors.length === 0, "no compilation error");
 
-    return Promise.resolve();
+    return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
+      pify(figlet.text)(
+        defaultConfig.text,
+        defaultConfig.fontOptions
+      ).then(output => {
+        output.split("\n").forEach(line => {
+          t.true(data.indexOf(encodeURI(line)) !== -1);
+        });
+
+        return Promise.resolve();
+      })
+    );
   });
 });
 
-test('should supported `config` from "query string"', t => {
+test("should execute successfully using alias as JSON config file", t => {
   const buildDir = tempy.directory();
   const webpackConfig = {
     context: fixturesDir,
-    entry: "./index.js",
+    entry: "./index-1.js",
     module: {
-      loaders: [
+      rules: [
         {
-          loader: `${loader}?${JSON.stringify(figletConfigRc)}`,
+          loader,
           test: /\.figletrc\.json$/
         }
       ]
@@ -315,6 +210,54 @@ test('should supported `config` from "query string"', t => {
     output: {
       filename: "bundle.js",
       path: buildDir
+    },
+    resolve: {
+      alias: {
+        figlet$: `${path.resolve(__dirname, "fixtures/.figletrc.json")}` // eslint-disable-line id-match
+      }
+    }
+  };
+
+  return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
+    t.true(stats.compilation.errors.length === 0, "no compilation error");
+
+    return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
+      pify(figlet.text)(
+        figletConfigJSONRc.text,
+        figletConfigJSONRc.fontOptions
+      ).then(output => {
+        output.split("\n").forEach(line => {
+          t.true(data.indexOf(encodeURI(line)) !== -1);
+        });
+
+        return Promise.resolve();
+      })
+    );
+  });
+});
+
+test("should execute successfully using alias as JavaScript config file", t => {
+  const buildDir = tempy.directory();
+  const webpackConfig = {
+    context: fixturesDir,
+    entry: "./index-1.js",
+    module: {
+      rules: [
+        {
+          loader,
+          test: /\.figletrc\.js$/
+        }
+      ]
+    },
+    output: {
+      filename: "bundle.js",
+      path: buildDir
+    },
+    resolve: {
+      alias: {
+        figlet$: `${path.resolve(__dirname, "fixtures/.figletrc.js")}` // eslint-disable-line id-match
+      }
     }
   };
 
@@ -334,5 +277,65 @@ test('should supported `config` from "query string"', t => {
         return Promise.resolve();
       })
     );
+  });
+});
+
+test("should throw error on invalid config", t => {
+  const buildDir = tempy.directory();
+  const webpackConfig = {
+    context: fixturesDir,
+    entry: "./index.js",
+    module: {
+      rules: [
+        {
+          loader,
+          options: figletConfigInvalid,
+          test: /\.figletrc\.json$/
+        }
+      ]
+    },
+    output: {
+      filename: "bundle.js",
+      path: buildDir
+    }
+  };
+
+  return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
+    t.true(stats.compilation.errors.length === 1, "compilation error");
+
+    return Promise.resolve();
+  });
+});
+
+test("should throw error on broken JSON config", t => {
+  const buildDir = tempy.directory();
+  const webpackConfig = {
+    context: fixturesDir,
+    entry: "./index-1.js",
+    module: {
+      rules: [
+        {
+          loader,
+          test: /\.figletrc-broken\.json$/
+        }
+      ]
+    },
+    output: {
+      filename: "bundle.js",
+      path: buildDir
+    },
+    resolve: {
+      alias: {
+        figlet$: `${path.resolve(__dirname, "fixtures/.figletrc-broken.json")}` // eslint-disable-line id-match
+      }
+    }
+  };
+
+  return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
+    t.true(stats.compilation.errors.length === 1, "compilation error");
+
+    return Promise.resolve();
   });
 });

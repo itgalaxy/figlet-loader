@@ -61,7 +61,7 @@
   },
   "scripts": {
     "precommit": "lint-staged",
-    "lint:prettier": "prettier --list-different '{lib,__tests__}/**/*.{js,jsx}' '*.js' --ignore-pattern '**/fixtures/**'",
+    "lint:prettier": "prettier --list-different '{lib,__tests__}/**/*.{js,jsx}' '*.js'",
     "lint:remark": "remark . -i .gitignore -f -q",
     "lint:eslint": "eslint . '.*.js' --ignore-path .gitignore --ext '.js,.jsx'",
     "lint": "npm-run-all -l -p lint:**",

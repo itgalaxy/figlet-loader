@@ -11,60 +11,25 @@ Get your figlet build bundled with webpack.
 
 ![Example](https://github.com/itgalaxy/figlet-loader/raw/master/example.png?raw=true)
 
-## Installation
+## Install
 
 ```shell
 $ npm install figlet-loader --save-dev
 ```
 
-## Initialization
-
-You have to create a `.figletrc` (or `.figletrc.js`) configuration file and put your figlet stuff in it. Like so
-
-```json
-// .figletrc or .figletrc.json
-{
-  "fontOptions": {
-    "font": "ANSI Shadow",
-    "horizontalLayout": "default",
-    "kerning": "default",
-    "verticalLayout": "default"
-  },
-  "outputTextBefore": "TEXT BEFORE",
-  "outputTextBeforeEscape": true,
-  "text": "ANOTHER-TEXT",
-  "outputTextAfter": "TEXT AFTER",
-  "outputTextAfterEscape": true
-}
-```
-
-Or
-
-```js
-'use strict';
-
-module.exports = {
-  fontOptions: {
-    font: "ANSI Shadow",
-    horizontalLayout: "default",
-    kerning: "default",
-    verticalLayout: "default"
-  },
-  outputTextBefore: "TEXT BEFORE",
-  outputTextBeforeEscape: true,
-  text: "ANOTHER-TEXT",
-  outputTextAfter: "TEXT AFTER",
-  outputTextAfterEscape: true
-};
-```
-
-Full list of supported **"options"** and their **"description"** can be found in [figlet](https://github.com/patorjk/figlet.js).
-
-### Webpack config
+## Usage
 
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
 
-Put the following code to your webpack config file:
+There are three use case.
+
+1. Using loader `options`.
+
+```javascript
+import 'figlet'; // or `const figlet = require('figlet');`
+```
+
+**webpack.config.js**
 
 ```javascript
 module.exports = {
@@ -74,6 +39,7 @@ module.exports = {
         loader: `figlet-loader`,
         options: {
           fontOptions: {
+            // Full list of supported options and their description can be found in [figlet](https://github.com/patorjk/figlet.js).
             font: "ANSI Shadow",
             horizontalLayout: "default",
             kerning: "default",
@@ -85,35 +51,95 @@ module.exports = {
           outputTextAfter: "TEXT AFTER",
           outputTextAfterEscape: true
         },
-        test: /figlet$/
+        test: /empty-alias-file\.js$/
       }
     ]
   },
   resolve: {
     alias: {
-      figlet$: path.resolve(__dirname, "path/to/empty-file") // You can add comment "Please do not delete this file" in this file
+      // You can add comment "Please do not delete this file" in this file
+      figlet$: path.resolve(__dirname, "/path/to/empty-alias-file.js")
     }
   }
 }
 ```
 
-Config should always contains `text` and `options` as above in **Initialization** section.
-
-### Usage
-
-Now you are able to import your custom figlet build as a module throughout your application like so:
+2. Using config file through alias (supported **JavaScript** and **JSON** syntax).
 
 ```javascript
-const figlet = require('figlet');
+import 'figlet'; // or `const figlet = require('figlet');`
 ```
 
-Or
+**.figletrc.js**
 
 ```javascript
-import 'figlet';
+"use strict";
+
+module.exports = {
+  fontOptions: {
+    font: "ANSI Shadow",
+    horizontalLayout: "default",
+    kerning: "default",
+    verticalLayout: "default"
+  },
+  text: "ANOTHER-TEXT-JS-RC",
+  outputTextBefore: "TEXT BEFORE",
+  outputTextAfter: "TEXT AFTER"
+};
 ```
 
-You can used [bundle](https://github.com/webpack/bundle-loader) plugin for async loading:
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  module: {
+    rules: [
+      {
+        loader: `figlet-loader`,
+        test: /\.figletrc\.js$/
+      }
+    ]
+  },
+  resolve: {
+    alias: {
+      figlet$: path.resolve(__dirname, "/path/to/.figletrc.js")
+    }
+  }
+}
+```
+
+3. Using config (supported **JavaScript** and **JSON** syntax) file directly (see below example how it is use).
+
+```javascript
+import '.figletrc.js';
+```
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  module: {
+    rules: [
+      {
+        loader: `figlet-loader`,
+        test: /\.figletrc\.js$/
+      }
+    ]
+  }
+}
+```
+
+## Additional Usage
+
+Async loading:
+
+1. Using `webpack` dynamic `import`.
+
+```javascript
+import('figlet').then(() => {});
+```
+
+2. You can used [bundle](https://github.com/webpack/bundle-loader) plugin for async loading:
 
 ```javascript
 import figletLoader from 'bundle?lazy!figlet';
