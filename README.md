@@ -5,7 +5,7 @@
 [![dependencies Status](https://david-dm.org/itgalaxy/figlet-loader/status.svg)](https://david-dm.org/itgalaxy/figlet-loader)
 [![devDependencies Status](https://david-dm.org/itgalaxy/figlet-loader/dev-status.svg)](https://david-dm.org/itgalaxy/figlet-loader?type=dev)
 [![peerDependencies Status](https://david-dm.org/itgalaxy/figlet-loader/peer-status.svg)](https://david-dm.org/itgalaxy/figlet-loader?type=peer)
-[![Greenkeeper badge](https://badges.greenkeeper.io/itgalaxy/figlet-loader.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/itgalaxy/figlet-loader.svg)](https://greenkeeper.io)
 
 Get your figlet build bundled with webpack.
 
@@ -24,17 +24,17 @@ You have to create a `.figletrc` (or `.figletrc.js`) configuration file and put 
 ```json
 // .figletrc or .figletrc.json
 {
-    "options": {
-        "outputTextBefore": "TEXT BEFORE",
-        "outputTextBeforeEscape": true,
-        "outputTextAfter": "TEXT AFTER",
-        "outputTextAfterEscape": true,
-        "font": "ANSI Shadow",
-        "horizontalLayout": "default",
-        "kerning": "default",
-        "verticalLayout": "default"
-    },
-    "text": "ANOTHER-TEXT"
+  "options": {
+    "outputTextBefore": "TEXT BEFORE",
+    "outputTextBeforeEscape": true,
+    "outputTextAfter": "TEXT AFTER",
+    "outputTextAfterEscape": true,
+    "font": "ANSI Shadow",
+    "horizontalLayout": "default",
+    "kerning": "default",
+    "verticalLayout": "default"
+  },
+  "text": "ANOTHER-TEXT"
 }
 ```
 
@@ -44,15 +44,15 @@ Or
 'use strict';
 
 module.exports = {
-    options: {
-        outputTextBefore: "TEXT BEFORE",
-        outputTextAfter: "TEXT AFTER",
-        font: "ANSI Shadow",
-        horizontalLayout: "default",
-        kerning: "default",
-        verticalLayout: "default"
-    },
-    text: "ANOTHER-TEXT"
+  options: {
+    outputTextBefore: "TEXT BEFORE",
+    outputTextAfter: "TEXT AFTER",
+    font: "ANSI Shadow",
+    horizontalLayout: "default",
+    kerning: "default",
+    verticalLayout: "default"
+  },
+  text: "ANOTHER-TEXT"
 };
 ```
 
@@ -66,70 +66,25 @@ Put the following code to your webpack config file:
 
 ```javascript
 module.exports = {
-    module: {
-        loaders: [
-            {
-                loader: "figlet?useConfigFile",
-                test: /\.figletrc$/, // or "/\.figletrc\.json$/", or "/\.figletrc\.js$/"
-            }
-        ]
-    },
-    resolve: {
-        alias: {
-            figlet$: path.resolve(__dirname, "path/to/.figletrc") // or "path/to/.figletrc.json", or "path/to/.figletrc.js"
-        }
+  module: {
+    rules: [
+      {
+        loader: `figlet-loader`,
+        options: {
+          options: {
+            // See option above
+          },
+          text: "ANOTHER-TEXT"
+        },
+        test: /figlet$/
+      }
+    ]
+  },
+  resolve: {
+    alias: {
+      figlet$: path.resolve(__dirname, "path/to/empty-file") // You can add comment "Please do not delete this file" in this file
     }
-}
-```
-
-Alternative configurations supported dynamic configuration:
-
-```javascript
-const figletConfig = {
-    options: {},
-    text: "ANOTHER-TEXT"
-};
-
-module.exports = {
-    module: {
-        loaders: [
-            {
-                loader: `figlet?${JSON.stringify(figletConfig)}`,
-                test: /figlet$/
-            }
-        ]
-    },
-    resolve: {
-        alias: {
-            figlet$: path.resolve(__dirname, "path/to/empty-file") // You can add comment "Please do not delete this file" in this file
-        }
-    }
-}
-```
-
-In `webpack 2` your can use this config:
-
-```javascript
-const figletConfig = {
-    options: {},
-    text: "ANOTHER-TEXT"
-};
-
-module.exports = {
-    module: {
-        rules: [
-            {
-                loader: `figlet-loader`,
-                options: figletConfig,
-                test: /figlet$/
-            }
-        ]
-    },
-    resolve: {
-        alias: {
-            figlet$: path.resolve(__dirname, "path/to/empty-file") // You can add comment "Please do not delete this file" in this file
-        }
-    }
+  }
 }
 ```
 
@@ -145,13 +100,13 @@ const figlet = require('figlet');
 
 Or
 
-```javscript
+```javascript
 import 'figlet';
 ```
 
 You can used [bundle](https://github.com/webpack/bundle-loader) plugin for async loading:
 
-```javscript
+```javascript
 import figletLoader from 'bundle?lazy!figlet';
 
 figletLoader(() => {});
@@ -159,7 +114,7 @@ figletLoader(() => {});
 
 ## Related
 
--   [figlet](https://github.com/patorjk/figlet.js) - API for this module
+- [figlet](https://github.com/patorjk/figlet.js) - API for this module
 
 ## Contribution
 
