@@ -4,17 +4,17 @@ const figlet = require("figlet");
 const loaderUtils = require("loader-utils");
 
 const defaultOptions = {
-  options: {
+  fontOptions: {
     font: "ANSI Shadow",
     horizontalLayout: "default",
     kerning: "default",
-    outputTextAfter: null,
-    outputTextAfterEscape: false,
-    outputTextBefore: null,
-    outputTextBeforeEscape: false,
     verticalLayout: "default"
   },
-  text: "FIGLET-LOADER"
+  text: "FIGLET-LOADER",
+  outputTextAfter: null,
+  outputTextAfterEscape: false,
+  outputTextBefore: null,
+  outputTextBeforeEscape: false
 };
 
 function wrapOutput(output, config) {
@@ -34,10 +34,10 @@ function wrapOutput(output, config) {
     "})(this, function () {" +
     "'use strict';";
 
-  if (config.options.outputTextBefore) {
+  if (config.outputTextBefore) {
     /* eslint-disable prefer-destructuring */
-    const outputTextBefore = config.options.outputTextBefore;
-    const isNeedEscapeBefore = config.options.outputTextBeforeEscape;
+    const outputTextBefore = config.outputTextBefore;
+    const isNeedEscapeBefore = config.outputTextBeforeEscape;
     /* eslint-enable prefer-destructuring */
 
     figletOutput += `console.log("${isNeedEscapeBefore
@@ -49,10 +49,10 @@ function wrapOutput(output, config) {
     figletOutput += `console.log(decodeURI("${encodeURI(line)}"));`;
   });
 
-  if (config.options.outputTextAfter) {
+  if (config.outputTextAfter) {
     /* eslint-disable prefer-destructuring */
-    const outputTextAfter = config.options.outputTextAfter;
-    const isNeedEscapeAfter = config.options.outputTextAfterEscape;
+    const outputTextAfter = config.outputTextAfter;
+    const isNeedEscapeAfter = config.outputTextAfterEscape;
     /* eslint-enable prefer-destructuring */
 
     figletOutput += `console.log("${isNeedEscapeAfter
@@ -97,7 +97,7 @@ module.exports = function(resolveConfig) {
 
   const config = Object.assign({}, defaultOptions, userOptions);
 
-  figlet.text(config.text, config.options, (error, output) => {
+  figlet.text(config.text, config.fontOptions, (error, output) => {
     if (error) {
       return callback(error);
     }

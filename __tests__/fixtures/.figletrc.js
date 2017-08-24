@@ -1,13 +1,13 @@
 "use strict";
 
 module.exports = {
-  options: {
-    outputTextBefore: "TEXT BEFORE",
-    outputTextAfter: "TEXT AFTER",
+  fontOptions: {
     font: "ANSI Shadow",
     horizontalLayout: "default",
     kerning: "default",
     verticalLayout: "default"
   },
-  text: "ANOTHER-TEXT-JS-RC"
+  text: "ANOTHER-TEXT-JS-RC",
+  outputTextBefore: "TEXT BEFORE",
+  outputTextAfter: "TEXT AFTER"
 };

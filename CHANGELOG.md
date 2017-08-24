@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org).
 
+## Head
+
+- Changed: rename font `options` for `figlet` to `fontOptions`.
+- Changed: move `outputTextAfter`, `outputTextAfterEscape`, `outputTextBefore` and `outputTextBeforeEscape` from `figlet` font options to `loader` options.
+
 ## 3.0.2 - 2017-06-20
 
 - Chore: support `webpack` v3.

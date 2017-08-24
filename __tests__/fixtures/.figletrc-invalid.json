@@ -1,5 +1,5 @@
 {
-    "options": {
+    "fontOptions": {
         "font": "NonexistsFont"
     },
     "text": "ANOTHER-TEXT-INVALID"

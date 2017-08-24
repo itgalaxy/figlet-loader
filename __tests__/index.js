@@ -15,16 +15,16 @@ const fixturesDir = path.resolve(__dirname, "fixtures");
 test("should execute successfully without any options", t => {
   const buildDir = tempy.directory();
   const DEFAULT_CONFIG = {
-    options: {
+    fontOptions: {
       font: "ANSI Shadow",
       horizontalLayout: "default",
       kerning: "default",
-      outputTextAfter: null,
-      outputTextAfterEscape: false,
-      outputTextBefore: null,
-      outputTextBeforeEscape: false,
       verticalLayout: "default"
     },
+    outputTextAfter: null,
+    outputTextAfterEscape: false,
+    outputTextBefore: null,
+    outputTextBeforeEscape: false,
     text: "FIGLET-LOADER"
   };
   const webpackConfig = {
@@ -45,12 +45,13 @@ test("should execute successfully without any options", t => {
   };
 
   return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
     t.true(stats.compilation.errors.length === 0, "no compilation error");
 
     return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
       pify(figlet.text)(
         DEFAULT_CONFIG.text,
-        DEFAULT_CONFIG.options
+        DEFAULT_CONFIG.fontOptions
       ).then(output => {
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
@@ -82,12 +83,13 @@ test('should execute successfully with JSON config and use `require("./.figletrc
   };
 
   return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
     t.true(stats.compilation.errors.length === 0, "no compilation error");
 
     return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
       pify(figlet.text)(
         figletConfigJSONRc.text,
-        figletConfigJSONRc.options
+        figletConfigJSONRc.fontOptions
       ).then(output => {
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
@@ -119,12 +121,13 @@ test('should execute successfully with JS config and use `require("./.figletrc.j
   };
 
   return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
     t.true(stats.compilation.errors.length === 0, "no compilation error");
 
     return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
       pify(figlet.text)(
         figletConfigRc.text,
-        figletConfigRc.options
+        figletConfigRc.fontOptions
       ).then(output => {
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
@@ -162,12 +165,13 @@ test('should execute successfully with JSON config and use `require("figlet")`',
   };
 
   return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
     t.true(stats.compilation.errors.length === 0, "no compilation error");
 
     return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
       pify(figlet.text)(
         figletConfigJSONRc.text,
-        figletConfigJSONRc.options
+        figletConfigJSONRc.fontOptions
       ).then(output => {
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
@@ -205,12 +209,13 @@ test('should execute successfully with JS config and use `require("figlet")`', t
   };
 
   return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
     t.true(stats.compilation.errors.length === 0, "no compilation error");
 
     return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
       pify(figlet.text)(
         figletConfigRc.text,
-        figletConfigRc.options
+        figletConfigRc.fontOptions
       ).then(output => {
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
@@ -248,12 +253,13 @@ test('should execute successfully using `options` and use `require("figlet")`', 
   };
 
   return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
     t.true(stats.compilation.errors.length === 0, "no compilation error");
 
     return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
       pify(figlet.text)(
         figletConfigJSONRc.text,
-        figletConfigJSONRc.options
+        figletConfigJSONRc.fontOptions
       ).then(output => {
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);
@@ -286,6 +292,7 @@ test("should throw error on invalid config", t => {
   };
 
   return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
     t.true(stats.compilation.errors.length > 0, "compilation error");
 
     return Promise.resolve();
@@ -312,12 +319,13 @@ test('should supported `config` from "query string"', t => {
   };
 
   return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.warnings.length === 0, "no compilation warnings");
     t.true(stats.compilation.errors.length === 0, "no compilation error");
 
     return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
       pify(figlet.text)(
         figletConfigRc.text,
-        figletConfigRc.options
+        figletConfigRc.fontOptions
       ).then(output => {
         output.split("\n").forEach(line => {
           t.true(data.indexOf(encodeURI(line)) !== -1);

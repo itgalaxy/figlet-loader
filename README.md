@@ -24,17 +24,17 @@ You have to create a `.figletrc` (or `.figletrc.js`) configuration file and put 
 ```json
 // .figletrc or .figletrc.json
 {
-  "options": {
-    "outputTextBefore": "TEXT BEFORE",
-    "outputTextBeforeEscape": true,
-    "outputTextAfter": "TEXT AFTER",
-    "outputTextAfterEscape": true,
+  "fontOptions": {
     "font": "ANSI Shadow",
     "horizontalLayout": "default",
     "kerning": "default",
     "verticalLayout": "default"
   },
-  "text": "ANOTHER-TEXT"
+  "outputTextBefore": "TEXT BEFORE",
+  "outputTextBeforeEscape": true,
+  "text": "ANOTHER-TEXT",
+  "outputTextAfter": "TEXT AFTER",
+  "outputTextAfterEscape": true
 }
 ```
 
@@ -44,15 +44,17 @@ Or
 'use strict';
 
 module.exports = {
-  options: {
-    outputTextBefore: "TEXT BEFORE",
-    outputTextAfter: "TEXT AFTER",
+  fontOptions: {
     font: "ANSI Shadow",
     horizontalLayout: "default",
     kerning: "default",
     verticalLayout: "default"
   },
-  text: "ANOTHER-TEXT"
+  outputTextBefore: "TEXT BEFORE",
+  outputTextBeforeEscape: true,
+  text: "ANOTHER-TEXT",
+  outputTextAfter: "TEXT AFTER",
+  outputTextAfterEscape: true
 };
 ```
 
@@ -71,10 +73,17 @@ module.exports = {
       {
         loader: `figlet-loader`,
         options: {
-          options: {
-            // See option above
+          fontOptions: {
+            font: "ANSI Shadow",
+            horizontalLayout: "default",
+            kerning: "default",
+            verticalLayout: "default"
           },
-          text: "ANOTHER-TEXT"
+          outputTextBefore: "TEXT BEFORE",
+          outputTextBeforeEscape: true,
+          text: "ANOTHER-TEXT",
+          outputTextAfter: "TEXT AFTER",
+          outputTextAfterEscape: true
         },
         test: /figlet$/
       }
