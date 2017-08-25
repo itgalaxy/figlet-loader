@@ -38,7 +38,7 @@ module.exports = {
   module: {
     rules: [
       {
-        loader: `figlet-loader`,
+        loader: "figlet-loader",
         options: {
           fontOptions: {
             // Full list of supported options and their description can be found in [figlet](https://github.com/patorjk/figlet.js).
@@ -97,7 +97,7 @@ module.exports = {
   module: {
     rules: [
       {
-        loader: `figlet-loader`,
+        loader: "figlet-loader",
         test: /\.figletrc\.js$/
       }
     ]
@@ -125,7 +125,7 @@ module.exports = {
   module: {
     rules: [
       {
-        loader: `figlet-loader`,
+        loader: "figlet-loader",
         test: /\.figletrc\.js$/
       }
     ]
