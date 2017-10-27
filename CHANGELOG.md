@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org).
 
 ## 4.0.0 - 2017-08-24
 
-- Changed: configuration loading behaviour. See `README.md`. 
+- Changed: configuration loading behaviour. See `README.md`.
 - Changed: rename font `options` for `figlet` to `fontOptions`.
 - Changed: move `outputTextBefore` and `outputTextAfter` from `figlet` font options to `loader` options and rename their to `textBefore` and `textAfter`.
 - Changed: don't output generated content, just `exports`.
