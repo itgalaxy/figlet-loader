@@ -17,10 +17,12 @@ test("should execute successfully using config file inside `require`", t => {
   const webpackConfig = {
     context: fixturesDir,
     entry: "./index.js",
+    mode: "development",
     module: {
       rules: [
         {
           loader,
+          type: "javascript/auto",
           test: /\.figletrc\.json$/
         }
       ]
@@ -58,6 +60,7 @@ test("should execute successfully using options and alias with empty file", t =>
   const webpackConfig = {
     context: fixturesDir,
     entry: "./index-1.js",
+    mode: "development",
     module: {
       rules: [
         {
@@ -105,6 +108,7 @@ test("should execute successfully using options and alias with non-empty file", 
   const webpackConfig = {
     context: fixturesDir,
     entry: "./index-1.js",
+    mode: "development",
     module: {
       rules: [
         {
@@ -163,6 +167,7 @@ test("should execute successfully using alias with empty file", t => {
   const webpackConfig = {
     context: fixturesDir,
     entry: "./index-1.js",
+    mode: "development",
     module: {
       rules: [
         {
@@ -205,10 +210,12 @@ test("should execute successfully using alias as JSON config file", t => {
   const webpackConfig = {
     context: fixturesDir,
     entry: "./index-1.js",
+    mode: "development",
     module: {
       rules: [
         {
           loader,
+          type: "javascript/auto",
           test: /\.figletrc\.json$/
         }
       ]
@@ -251,6 +258,7 @@ test("should execute successfully using alias as JavaScript config file", t => {
   const webpackConfig = {
     context: fixturesDir,
     entry: "./index-1.js",
+    mode: "development",
     module: {
       rules: [
         {
@@ -296,10 +304,12 @@ test("should throw error on invalid config", t => {
   const webpackConfig = {
     context: fixturesDir,
     entry: "./index.js",
+    mode: "development",
     module: {
       rules: [
         {
           loader,
+          type: "javascript/auto",
           options: figletConfigInvalid,
           test: /\.figletrc\.json$/
         }
@@ -324,10 +334,12 @@ test("should throw error on broken JSON config", t => {
   const webpackConfig = {
     context: fixturesDir,
     entry: "./index-1.js",
+    mode: "development",
     module: {
       rules: [
         {
           loader,
+          type: "javascript/auto",
           test: /\.figletrc-broken\.json$/
         }
       ]

@@ -55,18 +55,18 @@
     "remark-cli": "^5.0.0",
     "remark-preset-lint-itgalaxy": "^12.0.0",
     "tempy": "^0.2.0",
-    "webpack": "^3.0.0"
+    "webpack": "^4.0.0"
   },
   "peerDependencies": {
-    "webpack": "^2.0.0 || ^3.0.0"
+    "webpack": "^2.0.0 || ^3.0.0 || ^4.0.0"
   },
   "scripts": {
     "precommit": "lint-staged",
-    "lint:prettify": "prettier --list-different '{lib,__tests__}/**/*.{js,jsx}' '*.js'",
+    "lint:prettify": "prettier --list-different '**/*.{js,mjs,jsx,md}' '*.{js,mjs,md}'",
     "lint:remark": "remark . -i .gitignore -f -q",
     "lint:eslint": "eslint . '.*.js' --ignore-path .gitignore --ext '.js,.jsx'",
     "lint": "npm-run-all -l -p lint:**",
-    "prettify": "prettier --write '{lib,__tests__}/**/*.{js,jsx}' '*.js'",
+    "prettify": "npm run lint:prettify -- --write",
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix": "npm-run-all -l prettify -p 'fix:**'",
     "pretest": "npm run lint",

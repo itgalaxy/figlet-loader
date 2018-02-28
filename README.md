@@ -23,10 +23,12 @@ $ npm install figlet-loader --save-dev
 
 There are three use case.
 
-1. Using loader `options`.
+1.  Using loader `options`.
+
+**IMPORTANT**: add `type: "javascript/auto"` if you using `webpack@4` and `JSON` sytax for config.
 
 ```javascript
-import content from 'figlet'; // or `const content = require('figlet');`
+import content from "figlet"; // or `const content = require('figlet');`
 
 console.log(content);
 ```
@@ -39,6 +41,8 @@ module.exports = {
     rules: [
       {
         loader: "figlet-loader",
+        // ONLY FOR `webpack@4` and `JSON` config
+        type: "javascript/auto",
         options: {
           fontOptions: {
             // Full list of supported options and their description can be found in [figlet](https://github.com/patorjk/figlet.js).
@@ -61,13 +65,15 @@ module.exports = {
       figlet$: path.resolve(__dirname, "/path/to/empty-alias-file.js")
     }
   }
-}
+};
 ```
 
-2. Using config file through alias (supported **JavaScript** and **JSON** syntax).
+2.  Using config file through alias (supported **JavaScript** and **JSON** syntax).
+
+**IMPORTANT**: add `type: "javascript/auto"` if you using `webpack@4` and `JSON` sytax for config.
 
 ```javascript
-import context from 'figlet'; // or `const content = require('figlet');`
+import context from "figlet"; // or `const content = require('figlet');`
 
 console.log(content);
 ```
@@ -98,6 +104,8 @@ module.exports = {
     rules: [
       {
         loader: "figlet-loader",
+        // ONLY FOR `webpack@4` and `JSON` config
+        type: "javascript/auto",
         test: /\.figletrc\.js$/
       }
     ]
@@ -107,13 +115,15 @@ module.exports = {
       figlet$: path.resolve(__dirname, "/path/to/.figletrc.js")
     }
   }
-}
+};
 ```
 
-3. Using config (supported **JavaScript** and **JSON** syntax) file directly (see below example how it is use).
+3.  Using config (supported **JavaScript** and **JSON** syntax) file directly (see below example how it is use).
+
+**IMPORTANT**: add `type: "javascript/auto"` if you using `webpack@4` and `JSON` sytax for config.
 
 ```javascript
-import content from '.figletrc.js';
+import content from ".figletrc.js";
 
 console.log(content);
 ```
@@ -126,34 +136,36 @@ module.exports = {
     rules: [
       {
         loader: "figlet-loader",
+        // ONLY FOR `webpack@4` and `JSON` config
+        type: "javascript/auto",
         test: /\.figletrc\.js$/
       }
     ]
   }
-}
+};
 ```
 
 ## Additional Usage
 
 Async loading:
 
-1. Using `webpack` dynamic `import`.
+1.  Using `webpack` dynamic `import`.
 
 ```javascript
-import('figlet').then((content) => console.log(content));
+import("figlet").then(content => console.log(content));
 ```
 
-2. You can used [bundle](https://github.com/webpack/bundle-loader) plugin for async loading:
+2.  You can used [bundle](https://github.com/webpack/bundle-loader) plugin for async loading:
 
 ```javascript
-import figletLoader from 'bundle?lazy!figlet';
+import figletLoader from "bundle?lazy!figlet";
 
-figletLoader((content) => console.log(content));
+figletLoader(content => console.log(content));
 ```
 
 ## Related
 
-- [figlet](https://github.com/patorjk/figlet.js) - API for this module
+* [figlet](https://github.com/patorjk/figlet.js) - API for this module
 
 ## Contribution
 
