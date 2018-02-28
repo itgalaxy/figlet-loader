@@ -187,16 +187,15 @@ test("should execute successfully using alias with empty file", t => {
     t.true(stats.compilation.errors.length === 0, "no compilation error");
 
     return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
-      pify(figlet.text)(
-        defaultConfig.text,
-        defaultConfig.fontOptions
-      ).then(output => {
-        output.split("\n").forEach(line => {
-          t.true(data.indexOf(encodeURI(line)) !== -1);
-        });
+      pify(figlet.text)(defaultConfig.text, defaultConfig.fontOptions).then(
+        output => {
+          output.split("\n").forEach(line => {
+            t.true(data.indexOf(encodeURI(line)) !== -1);
+          });
 
-        return Promise.resolve();
-      })
+          return Promise.resolve();
+        }
+      )
     );
   });
 });
@@ -276,19 +275,18 @@ test("should execute successfully using alias as JavaScript config file", t => {
     t.true(stats.compilation.errors.length === 0, "no compilation error");
 
     return pify(fs.readFile)(`${buildDir}/bundle.js`, "utf8").then(data =>
-      pify(figlet.text)(
-        figletConfigRc.text,
-        figletConfigRc.fontOptions
-      ).then(output => {
-        t.true(data.indexOf(encodeURI(figletConfigRc.textBefore)) !== -1);
-        t.true(data.indexOf(encodeURI(figletConfigRc.textAfter)) !== -1);
+      pify(figlet.text)(figletConfigRc.text, figletConfigRc.fontOptions).then(
+        output => {
+          t.true(data.indexOf(encodeURI(figletConfigRc.textBefore)) !== -1);
+          t.true(data.indexOf(encodeURI(figletConfigRc.textAfter)) !== -1);
 
-        output.split("\n").forEach(line => {
-          t.true(data.indexOf(encodeURI(line)) !== -1);
-        });
+          output.split("\n").forEach(line => {
+            t.true(data.indexOf(encodeURI(line)) !== -1);
+          });
 
-        return Promise.resolve();
-      })
+          return Promise.resolve();
+        }
+      )
     );
   });
 });
